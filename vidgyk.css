@@ -110,6 +110,12 @@
 .mbr-m__pv:disabled,.mbr-m__nx:disabled{color:#cfcfd3;cursor:default}
 .go-next .mbr-m__sc,.go-next .mbr-m__view{animation:mbr-next .22s cubic-bezier(.16,1,.3,1) both}
 .go-prev .mbr-m__sc,.go-prev .mbr-m__view{animation:mbr-prev .22s cubic-bezier(.16,1,.3,1) both}
+.pic-next .mbr-m__view{animation:mbr-next .22s cubic-bezier(.16,1,.3,1) both}
+.pic-prev .mbr-m__view{animation:mbr-prev .22s cubic-bezier(.16,1,.3,1) both}
+.end-next .mbr-m__view{animation:mbr-end-n .26s ease both}
+.end-prev .mbr-m__view{animation:mbr-end-p .26s ease both}
+@keyframes mbr-end-n{40%{transform:translateX(-14px)}}
+@keyframes mbr-end-p{40%{transform:translateX(14px)}}
 @keyframes mbr-next{from{opacity:.3;transform:translateX(28px)}}
 @keyframes mbr-prev{from{opacity:.3;transform:translateX(-28px)}}
 

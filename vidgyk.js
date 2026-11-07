@@ -168,7 +168,7 @@
       var p = e.target.closest('[data-go]');
       if (p) go(+p.dataset.go);
     });
-    /* Swipe on the photo goes through photos, swipe on the text goes to the next review. */
+    /* A swipe only goes through the photos of the open review. Reviews change with the buttons. */
     function swipe(el, fn) {
       var sx = 0, sy = 0;
       el.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
@@ -178,14 +178,13 @@
       }, { passive: true });
     }
     swipe(box.querySelector('.mbr-m__stage'), move);
-    swipe(box.querySelector('.mbr-m__sc'), go);
   }
 
-  function slide(d) {
+  function play(name) {
     var inner = box.querySelector('.mbr-m__box');
-    inner.classList.remove('go-next', 'go-prev');
+    inner.classList.remove('go-next', 'go-prev', 'pic-next', 'pic-prev', 'end-next', 'end-prev');
     void inner.offsetWidth;
-    inner.classList.add(d > 0 ? 'go-next' : 'go-prev');
+    inner.classList.add(name);
   }
 
   function paintPhoto() {
@@ -201,7 +200,10 @@
       big.onerror = function () { if (mine === token) { img.src = thumb(u); img.style.opacity = 1; } };
     }
     var cnt = box.querySelector('.mbr-m__cnt');
-    cnt.textContent = p.length > 1 ? (pic + 1) + ' / ' + p.length : '';
+    cnt.textContent = p.length > 1 ? 'Фото ' + (pic + 1) + ' з ' + p.length : '';
+    var navs = box.querySelectorAll('.mbr-m__nav');
+    navs[0].style.display = pic > 0 ? '' : 'none';
+    navs[1].style.display = pic < p.length - 1 ? '' : 'none';
     preload(p[pic + 1]);
     if (view[cur + 1]) preload(photos(view[cur + 1])[0]);
   }
@@ -222,10 +224,8 @@
       (r.productName && r.productUrl ? '<span class="mbr-m__prod">' + esc(r.productName) + '</span>' : '') +
       (r.productUrl ? '<a class="mbr-m__go" href="' + esc(r.productUrl) + '"><span class="mbr-m__gl">Перейти до товару</span><span class="mbr-m__gs">До товару</span><span aria-hidden="true">→</span></a>' : '') +
       '<button type="button" class="mbr-m__pv" data-go="-1" aria-label="Попередній відгук"' + (cur ? '' : ' disabled') + '><span aria-hidden="true">←</span><span class="mbr-m__gl"> Попередній</span></button>' +
-      '<span class="mbr-m__pos">' + (cur + 1) + ' з ' + view.length + '</span>' +
+      '<span class="mbr-m__pos">Відгук ' + (cur + 1) + ' з ' + view.length + '</span>' +
       '<button type="button" class="mbr-m__nx" data-go="1" aria-label="Наступний відгук"' + (cur < view.length - 1 ? '' : ' disabled') + '><span class="mbr-m__gl">Наступний </span><span aria-hidden="true">→</span></button>';
-    var navs = box.querySelectorAll('.mbr-m__nav');
-    navs[0].style.display = navs[1].style.display = p.length > 1 ? '' : 'none';
     if (p.length) paintPhoto();
     history.replaceState(history.state, '', '#review-' + r.id);
   }
@@ -233,16 +233,15 @@
   function go(d) {
     var n = cur + d;
     if (n < 0 || n >= view.length) return;
-    cur = n; pic = 0; paint(); slide(d);
+    cur = n; pic = 0; paint(); play(d > 0 ? 'go-next' : 'go-prev');
   }
-  /* Through the photos of this review, then on to the next review. */
+  /* Stays inside the open review: at the last photo it stops. */
   function move(d) {
     var n = photos(view[cur]).length;
-    if (pic + d >= 0 && pic + d < n) { pic += d; paintPhoto(); return; }
-    if (cur + d < 0 || cur + d >= view.length) return;
-    cur += d;
-    pic = d < 0 ? Math.max(photos(view[cur]).length - 1, 0) : 0;
-    paint(); slide(d);
+    if (pic + d < 0 || pic + d >= n) { play(d > 0 ? 'end-next' : 'end-prev'); return; }
+    pic += d;
+    paintPhoto();
+    play(d > 0 ? 'pic-next' : 'pic-prev');
   }
 
   function open(id) {
@@ -276,8 +275,8 @@
   document.addEventListener('keydown', function (e) {
     if (!box || !box.classList.contains('is-open')) return;
     if (e.key === 'Escape') close();
-    if (e.key === 'ArrowRight') move(1);
-    if (e.key === 'ArrowLeft') move(-1);
+    if (e.key === 'ArrowRight') go(1);
+    if (e.key === 'ArrowLeft') go(-1);
     if (e.key === 'Tab') {
       var f = [].filter.call(box.querySelectorAll('a[href],button:not([disabled])'), function (x) { return x.offsetParent; });
       var a = f[0], z = f[f.length - 1];
