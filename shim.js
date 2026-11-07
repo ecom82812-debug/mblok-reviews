@@ -216,10 +216,31 @@
     firestore: firestore
   };
 
-  /* New reviews block in product cards. Only with ?rw=new or ?review=1 until it is approved. */
-  if (/\/tproduct\//.test(location.pathname) && /[?&](rw=new|review=1)/.test(location.search)) {
+  /* One look for rating stars everywhere: black, same size. Older scripts draw them orange. */
+  var starCss = document.createElement('style');
+  starCss.id = 'mb-stars';
+  starCss.textContent =
+    'body .mb-rate,body .rw-inline,body .rw-inline-card{font-family:Montserrat,Arial,sans-serif;align-items:center;flex-wrap:nowrap;white-space:nowrap}' +
+    'body .mb-rate{gap:5px;margin:6px 0}' +
+    'body .mb-rate .mb-rate-stars,body .rw-inline .rw-stars,body .rw-inline-card .rw-stars{display:inline-flex;gap:1px;flex:none}' +
+    'body .mb-rate-stars svg,body .rw-star{width:14px;height:14px;display:block}' +
+    'body .mb-rate-stars path,body .rw-star path{stroke:#111}' +
+    'body .mb-rate-stars path:not([fill="none"]):not([fill^="url"]),body path.rw-star-full{fill:#111}' +
+    'body path.rw-star-empty{fill:none}' +
+    '#mb-rate-half stop:first-child,#rw-half stop:first-child{stop-color:#111}' +
+    'body .mb-rate strong,body .rw-inline strong,body .rw-inline-card strong{font-size:13px;font-weight:700;color:#111}' +
+    'body .mb-rate .mb-rate-cnt,body .rw-inline .rw-cnt,body .rw-inline-card .rw-cnt{font-size:12px;color:#8a8a8e}' +
+    '@media(max-width:768px){body .mb-rate{gap:4px;margin:5px 0}' +
+    'body .mb-rate-stars svg,body .rw-inline-card .rw-star{width:12px;height:12px}' +
+    'body .mb-rate strong,body .rw-inline-card strong{font-size:12px}' +
+    'body .mb-rate .mb-rate-cnt,body .rw-inline-card .rw-cnt{font-size:11px}}';
+  nativeAppend.call(document.head, starCss);
+
+  /* New reviews block in product cards. Set to false to return to the old widget. */
+  var NEW_PRODUCT_BLOCK = true;
+  if (/\/tproduct\//.test(location.pathname) && (NEW_PRODUCT_BLOCK || /[?&](rw=new|review=1)/.test(location.search))) {
     var product = document.createElement('script');
-    product.src = BASE + 'product.js?v=8';
+    product.src = BASE + 'product.js?v=9';
     product.async = true;
     nativeAppend.call(document.head, product);
   }
