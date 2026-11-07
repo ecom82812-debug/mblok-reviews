@@ -3,10 +3,6 @@ on:
   schedule:
     - cron: '7,37 * * * *'
   workflow_dispatch:
-    inputs:
-      full:
-        description: Force a full export
-        default: '1'
 permissions:
   contents: write
 concurrency: export
@@ -16,9 +12,9 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - run: python3 scripts/export.py
-        env:
-          FULL: ${{ inputs.full }}
+      - run: npm install --no-save --no-audit --no-fund firebase@10.12.2
+      - run: node scripts/fetch.mjs "$RUNNER_TEMP/reviews.json"
+      - run: python3 scripts/export.py "$RUNNER_TEMP/reviews.json"
       - run: |
           git config user.name 'reviews-export'
           git config user.email 'reviews-export@users.noreply.github.com'
