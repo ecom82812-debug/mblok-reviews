@@ -61,6 +61,7 @@ html.mb-cards .t-catalog__card .t-btnflex_type_button2{right:0!important;bottom:
 @media (min-width:961px){
 html.mb-cards .t-catalog__cont-w-filter{padding-left:24px!important;padding-right:24px!important}
 html.mb-cards .t-catalog__cont-wrapper{column-gap:24px!important}
-html.mb-cards .t-catalog__cont-wrapper>.t-catalog__filter-wrapper,html.mb-cards .t-catalog__filter-wrapper{flex:0 0 240px!important;width:240px!important;max-width:240px!important;min-width:0!important}
+html.mb-cards .t-catalog__cont-wrapper>.t-catalog__filter-wrapper,html.mb-cards .t-catalog__filter-wrapper{flex:0 0 240px!important;width:240px!important;max-width:240px!important;min-width:0!important;box-sizing:border-box!important;padding-left:16px!important;padding-right:16px!important}
+html.mb-cards .t-catalog__filter-wrapper .js-sidebar-parts,html.mb-cards .t-catalog__filter-wrapper .js-sidebar-filters{width:100%!important;max-width:100%!important}
 html.mb-cards .t-catalog__cont-wrapper .js-catalog-grid-cont{flex:1 1 0!important;min-width:0!important;width:auto!important;max-width:none!important}
 }
