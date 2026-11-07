@@ -1,0 +1,31 @@
+/* SEO text of catalog sections, same look as the home page block. The text itself sits in the page. */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
+.t-rec:has(.msq){overflow:visible!important}
+.msq{box-sizing:border-box;max-width:1280px;margin:0 auto;padding:40px 40px 52px;color:#111;font-family:var(--t-text-font,Montserrat),Arial,sans-serif}
+.msq *{box-sizing:border-box}
+.msq__l{position:relative;height:2px;margin-bottom:30px}
+.msq__l i{position:absolute;left:0;top:0;width:100%;height:2px;background:#111;transform:scaleX(0);transform-origin:left;transition:transform 1.5s cubic-bezier(.65,0,.2,1)}
+.msq__l b{position:absolute;top:-4px;left:0;width:10px;height:10px;background:#469bde;transition:left 1.5s cubic-bezier(.65,0,.2,1)}
+.msq.go .msq__l i{transform:none}
+.msq.go .msq__l b{left:calc(100% - 10px)}
+.msq h1{margin:0 0 12px;font-family:'Playfair Display',Georgia,serif;font-size:38px;line-height:1.18;font-weight:700;color:#111}
+.msq__ld{margin:0;max-width:860px;font-size:15px;line-height:1.65;color:#444}
+.msq__m{overflow:hidden;margin-top:24px;transition:max-height .5s ease}
+.msq.js .msq__m{max-height:34px;-webkit-mask-image:linear-gradient(#000 25%,transparent 95%);mask-image:linear-gradient(#000 25%,transparent 95%)}
+.msq.js.open .msq__m{-webkit-mask-image:none;mask-image:none}
+.msq__g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px 40px}
+.msq h2{margin:0 0 8px;font-family:'Playfair Display',Georgia,serif;font-size:21px;line-height:1.3;font-weight:700;color:#111}
+.msq__g p{margin:0;font-size:14px;line-height:1.65;color:#555}
+.msq a{color:inherit;text-decoration:underline;text-decoration-color:#469bde;text-underline-offset:3px}
+.msq__b{display:none;align-items:center;gap:10px;margin-top:14px;padding:6px 0;background:none;border:0;font:inherit;font-size:14px;font-weight:600;color:#111;cursor:pointer}
+.msq.js .msq__b{display:inline-flex}
+.msq__b svg{width:12px;height:12px;transition:transform .3s}
+.msq.open .msq__b svg{transform:rotate(180deg)}
+@media (max-width:760px){
+  .msq{padding:32px 20px 40px}
+  .msq__l{margin-bottom:24px}
+  .msq h1{font-size:28px}
+  .msq__g{grid-template-columns:1fr}
+  .msq.js .msq__m{max-height:66px}
+}
+@media (prefers-reduced-motion:reduce){.msq__l i,.msq__l b,.msq__m{transition:none}}
