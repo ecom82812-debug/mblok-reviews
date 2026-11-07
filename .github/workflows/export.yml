@@ -15,6 +15,8 @@ jobs:
       - run: npm install --no-save --no-audit --no-fund firebase@10.12.2
       - run: node scripts/fetch.mjs "$RUNNER_TEMP/reviews.json"
       - run: python3 scripts/export.py "$RUNNER_TEMP/reviews.json"
+      - run: python3 scripts/warm.py
+        continue-on-error: true
       - run: |
           git config user.name 'reviews-export'
           git config user.email 'reviews-export@users.noreply.github.com'
