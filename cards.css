@@ -79,3 +79,6 @@ html.mb-cards-home .js-product.mb-in .t-store__card__btns-wrapper a:after{right:
 
 /* Home page: full titles, as in catalogs */
 html.mb-cards-home .t-store__card__title{display:block!important;-webkit-line-clamp:none;overflow:visible}
+
+/* Home page: two buttons in the block, «Про товар» stays hidden, the last one is the cart */
+html.mb-cards-home .t-store__card__btns-wrapper a:not(:last-of-type){display:none!important}

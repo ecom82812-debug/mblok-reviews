@@ -265,7 +265,7 @@
       document.documentElement.classList.add('mb-cards-home');
       var cardCss = document.createElement('link');
       cardCss.rel = 'stylesheet';
-      cardCss.href = BASE + 'cards.css?v=10';
+      cardCss.href = BASE + 'cards.css?v=11';
       nativeAppend.call(document.head, cardCss);
       /* Size without spaces, so long sizes stay on one line. */
       var tightSizes = function () {
@@ -295,7 +295,7 @@
       };
       setInterval(readCart, 700);
       document.addEventListener('click', function (e) {
-        var b = e.target.closest && e.target.closest('.js-product.mb-in .t-btnflex_type_button2,.js-product.mb-in .t-store__card__btns-wrapper a');
+        var b = e.target.closest && e.target.closest('.js-product.mb-in .t-btnflex_type_button2,.js-product.mb-in .t-store__card__btns-wrapper a:last-of-type');
         if (!b || !window.tcart__openCart) return;
         e.preventDefault();
         e.stopPropagation();
