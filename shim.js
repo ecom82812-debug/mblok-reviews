@@ -271,7 +271,7 @@
       var tightSizes = function () {
         [].forEach.call(document.querySelectorAll('.t-catalog__card__descr:not([data-mb]),.t-store__card__descr:not([data-mb])'), function (d) {
           d.setAttribute('data-mb', '1');
-          d.innerHTML = d.innerHTML.replace(/\s*[×x]\s*/g, '×');
+          d.innerHTML = d.innerHTML.replace(/(\d)\s*[×xхХX]\s*(?=\d)/g, '$1×');
         });
       };
       /* Cards of products already in the cart show a tick; pressing it opens the cart. */
