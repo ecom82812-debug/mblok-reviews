@@ -93,7 +93,27 @@
     [].forEach.call(root.querySelectorAll('.mbr-bar'), function (b) { b.classList.toggle('is-on', b.dataset.f === filter); });
   }
 
+  /* Product page on a phone: a plain list under the photo gallery. */
+  function classic() { return !!pid && small(); }
+  function rowCard(r) {
+    var p = photos(r), name = r.name || 'Покупець';
+    var h = '<article class="mbr-row-c" tabindex="0" role="button" data-id="' + esc(r.id) + '" aria-label="Відгук: ' + esc(name) + '">' +
+      '<div class="mbr-row-c__h"><span class="mbr-ava" aria-hidden="true">' + esc(name.trim().charAt(0).toUpperCase()) + '</span>' +
+      '<div class="mbr-row-c__id"><div class="mbr-who">' + '<span>' + esc(name) + '</span>' + (r.verified ? TICK : '') + '</div>' + stars(r.rating) + '</div>' +
+      '<span class="mbr-date">' + date(r) + '</span></div>';
+    if (r.text) h += '<p class="mbr-card__x">' + esc(r.text) + '</p>';
+    if (p.length) {
+      h += '<div class="mbr-row-c__ph">' + p.slice(0, 4).map(function (u, i) {
+        var rest = i === 3 && p.length > 4 ? '<b>+' + (p.length - 4) + '</b>' : '';
+        return '<span data-id="' + esc(r.id) + '" data-pic="' + i + '"><img src="' + esc(tiny(u)) + '" alt="Фото покупця" loading="lazy" decoding="async">' + rest + '</span>';
+      }).join('') + '</div>';
+    }
+    if (r.reply) h += '<div class="mbr-m__reply"><b>Відповідь mBlok</b>' + esc(r.reply) + '</div>';
+    return h + '</article>';
+  }
+
   function card(r) {
+    if (classic()) return rowCard(r);
     var p = photos(r), h = '<article class="mbr-card" tabindex="0" role="button" data-id="' + esc(r.id) + '" aria-label="Відгук: ' + esc(r.name) + '">';
     if (p.length) {
       h += '<div class="mbr-card__ph"><img src="' + esc(thumb(p[0])) + '" alt="Фото покупця" loading="lazy" decoding="async">' +
@@ -108,7 +128,7 @@
     return h + '</div></article>';
   }
 
-  function colCount() { return !pid && window.innerWidth >= 1000 ? 3 : 2; }
+  function colCount() { return classic() ? 1 : !pid && window.innerWidth >= 1000 ? 3 : 2; }
 
   function addCards(from, to) {
     view.slice(from, to).forEach(function (r) {
@@ -369,7 +389,7 @@
     if (c) open(c.dataset.id, +c.getAttribute('data-pic') || 0);
   });
   root.addEventListener('keydown', function (e) {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('mbr-card')) { e.preventDefault(); open(e.target.dataset.id); }
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && (e.target.classList.contains('mbr-card') || e.target.classList.contains('mbr-row-c'))) { e.preventDefault(); open(e.target.dataset.id); }
   });
   var qt;
   if ($('mbr-q')) $('mbr-q').addEventListener('input', function () {
