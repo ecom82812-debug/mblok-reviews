@@ -51,3 +51,16 @@ html.mb-cards .t-catalog__card__descr,html.mb-cards .t-store__card__descr{font-s
 html.mb-cards .t-catalog__card__price,html.mb-cards .t-store__card__price{font-size:17px!important}
 html.mb-cards .t-catalog__card__contentwrapper,html.mb-cards .t-store__card__wrap_txt-and-btns{padding:14px!important}
 html.mb-cards .t-catalog__card .t-btnflex_type_button2,html.mb-cards .t-store__card .t-store__card__btns-wrapper a{right:14px;bottom:14px}}
+
+/* Catalog only: no card background, full titles, bigger photos on computers. */
+html.mb-cards .t-catalog__card.js-product{background:none;border-radius:0;overflow:visible;box-shadow:none}
+html.mb-cards .t-catalog__card__imgwrapper{border-radius:14px!important;overflow:hidden}
+html.mb-cards .t-catalog__card__contentwrapper{padding:10px 0 0!important}
+html.mb-cards .t-catalog__card__title{display:block!important;-webkit-line-clamp:none;overflow:visible}
+html.mb-cards .t-catalog__card .t-btnflex_type_button2{right:0!important;bottom:0!important}
+@media (min-width:961px){
+html.mb-cards .t-catalog__cont-w-filter{padding-left:24px!important;padding-right:24px!important}
+html.mb-cards .t-catalog__cont-wrapper{column-gap:24px!important}
+html.mb-cards .t-catalog__cont-wrapper>.t-catalog__filter-wrapper,html.mb-cards .t-catalog__filter-wrapper{flex:0 0 240px!important;width:240px!important;max-width:240px!important;min-width:0!important}
+html.mb-cards .t-catalog__cont-wrapper .js-catalog-grid-cont{flex:1 1 0!important;min-width:0!important;width:auto!important;max-width:none!important}
+}
