@@ -253,19 +253,19 @@
     else watchMenu();
   }
 
-  /* New product cards: on in catalogs, set NEW_CARDS to false to return to the old ones.
-     Home page blocks are still on trial with ?cards=new, kept for the visit; ?cards=off ends it. */
+  /* New product cards on all pages. Set NEW_CARDS to false to return to the old ones;
+     ?cards=new still shows them for a visit in that case, ?cards=off ends it. */
   var NEW_CARDS = true;
   try {
     if (/[?&]cards=new/.test(location.search)) sessionStorage.setItem('mb-cards', '1');
     if (/[?&]cards=off/.test(location.search)) sessionStorage.removeItem('mb-cards');
     var cardTrial = !!sessionStorage.getItem('mb-cards');
-    if (cardTrial || (NEW_CARDS && location.pathname !== '/')) {
+    if (cardTrial || NEW_CARDS) {
       document.documentElement.classList.add('mb-cards');
-      if (cardTrial) document.documentElement.classList.add('mb-cards-home');
+      document.documentElement.classList.add('mb-cards-home');
       var cardCss = document.createElement('link');
       cardCss.rel = 'stylesheet';
-      cardCss.href = BASE + 'cards.css?v=9';
+      cardCss.href = BASE + 'cards.css?v=10';
       nativeAppend.call(document.head, cardCss);
       /* Size without spaces, so long sizes stay on one line. */
       var tightSizes = function () {
