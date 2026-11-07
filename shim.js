@@ -261,7 +261,7 @@
       document.documentElement.classList.add('mb-cards');
       var cardCss = document.createElement('link');
       cardCss.rel = 'stylesheet';
-      cardCss.href = BASE + 'cards.css?v=7';
+      cardCss.href = BASE + 'cards.css?v=8';
       nativeAppend.call(document.head, cardCss);
       /* Size without spaces, so long sizes stay on one line. */
       var tightSizes = function () {
