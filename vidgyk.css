@@ -81,7 +81,9 @@
 .mbr-m__x{top:10px;right:10px;z-index:3;background:#fff;color:#111}
 .mbr-m__x:hover{background:var(--blue);color:#fff}
 #mbr-m button:focus-visible,#mbr-m a:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
-.mbr-m__cnt{display:none;position:absolute;left:12px;bottom:12px;padding:4px 8px;background:rgba(17,17,17,.78);color:#fff;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
+.mbr-m__cnt{display:none;position:absolute;left:50%;bottom:12px;transform:translateX(-50%);gap:7px;padding:7px 10px;background:rgba(17,17,17,.6);border-radius:999px}
+.mbr-m__cnt i{display:block;width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.45);transition:background .16s,transform .16s}
+.mbr-m__cnt i.is-on{background:#fff;transform:scale(1.25)}
 .mbr-m__cnt:empty{display:none!important}
 .mbr-m__thumbs{position:relative;display:flex;justify-content:center;gap:6px;padding:10px;background:rgba(17,17,17,.5)}
 .mbr-m__thumbs:empty{display:none}
@@ -149,7 +151,7 @@
   .mbr-m__stage{flex:0 0 52%}
   .mbr-m__thumbs{display:none}
   .mbr-m__nav{display:none}
-  .mbr-m__cnt{display:block}
+  .mbr-m__cnt{display:flex}
   .mbr-m__info{flex:1}
   .mbr-m__sc{padding:16px}
   .no-photo .mbr-m__sc{padding-top:60px}

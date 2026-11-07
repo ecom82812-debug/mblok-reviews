@@ -156,7 +156,7 @@
       '<div class="mbr-m__stage"><div class="mbr-m__bg"></div><div class="mbr-m__view"><img alt="Фото покупця">' +
       '<button type="button" class="mbr-m__nav mbr-m__prev" aria-label="Попереднє фото">' + ARROW('M15 6l-6 6 6 6') + '</button>' +
       '<button type="button" class="mbr-m__nav mbr-m__next" aria-label="Наступне фото">' + ARROW('M9 6l6 6-6 6') + '</button></div>' +
-      '<span class="mbr-m__cnt"></span><div class="mbr-m__thumbs"></div></div>' +
+      '<span class="mbr-m__cnt" role="img"></span><div class="mbr-m__thumbs"></div></div>' +
       '<div class="mbr-m__info"><div class="mbr-m__sc"></div><div class="mbr-m__foot"></div></div></div>';
     document.body.appendChild(box);
     box.addEventListener('click', function (e) {
@@ -200,7 +200,8 @@
       big.onerror = function () { if (mine === token) { img.src = thumb(u); img.style.opacity = 1; } };
     }
     var cnt = box.querySelector('.mbr-m__cnt');
-    cnt.textContent = p.length > 1 ? 'Фото ' + (pic + 1) + ' з ' + p.length : '';
+    cnt.innerHTML = p.length > 1 ? p.map(function (u, i) { return '<i' + (i === pic ? ' class="is-on"' : '') + '></i>'; }).join('') : '';
+    cnt.setAttribute('aria-label', 'Фото ' + (pic + 1) + ' з ' + p.length);
     var navs = box.querySelectorAll('.mbr-m__nav');
     navs[0].style.display = pic > 0 ? '' : 'none';
     navs[1].style.display = pic < p.length - 1 ? '' : 'none';
