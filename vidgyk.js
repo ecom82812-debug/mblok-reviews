@@ -168,12 +168,24 @@
       var p = e.target.closest('[data-go]');
       if (p) go(+p.dataset.go);
     });
-    var sx = 0, sy = 0, stage = box.querySelector('.mbr-m__stage');
-    stage.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
-    stage.addEventListener('touchend', function (e) {
-      var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
-      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) move(dx < 0 ? 1 : -1);
-    }, { passive: true });
+    /* Swipe on the photo goes through photos, swipe on the text goes to the next review. */
+    function swipe(el, fn) {
+      var sx = 0, sy = 0;
+      el.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+      el.addEventListener('touchend', function (e) {
+        var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) fn(dx < 0 ? 1 : -1);
+      }, { passive: true });
+    }
+    swipe(box.querySelector('.mbr-m__stage'), move);
+    swipe(box.querySelector('.mbr-m__sc'), go);
+  }
+
+  function slide(d) {
+    var inner = box.querySelector('.mbr-m__box');
+    inner.classList.remove('go-next', 'go-prev');
+    void inner.offsetWidth;
+    inner.classList.add(d > 0 ? 'go-next' : 'go-prev');
   }
 
   function paintPhoto() {
@@ -207,9 +219,11 @@
       (r.reply ? '<div class="mbr-m__reply"><b>Відповідь mBlok</b>' + esc(r.reply) + '</div>' : '');
     box.querySelector('.mbr-m__sc').scrollTop = 0;
     box.querySelector('.mbr-m__foot').innerHTML =
-      (r.productUrl ? (r.productName ? '<span class="mbr-m__prod">' + esc(r.productName) + '</span>' : '') + '<a class="mbr-m__go" href="' + esc(r.productUrl) + '">Перейти до товару <span aria-hidden="true">→</span></a>' : '') +
-      '<div class="mbr-m__pager"><button type="button" data-go="-1"' + (cur ? '' : ' disabled') + '>← Попередній</button><span>' + (cur + 1) + ' з ' + view.length +
-      '</span><button type="button" data-go="1"' + (cur < view.length - 1 ? '' : ' disabled') + '>Наступний →</button></div>';
+      (r.productName && r.productUrl ? '<span class="mbr-m__prod">' + esc(r.productName) + '</span>' : '') +
+      (r.productUrl ? '<a class="mbr-m__go" href="' + esc(r.productUrl) + '"><span class="mbr-m__gl">Перейти до товару</span><span class="mbr-m__gs">До товару</span><span aria-hidden="true">→</span></a>' : '') +
+      '<button type="button" class="mbr-m__pv" data-go="-1" aria-label="Попередній відгук"' + (cur ? '' : ' disabled') + '><span aria-hidden="true">←</span><span class="mbr-m__gl"> Попередній</span></button>' +
+      '<span class="mbr-m__pos">' + (cur + 1) + ' з ' + view.length + '</span>' +
+      '<button type="button" class="mbr-m__nx" data-go="1" aria-label="Наступний відгук"' + (cur < view.length - 1 ? '' : ' disabled') + '><span class="mbr-m__gl">Наступний </span><span aria-hidden="true">→</span></button>';
     var navs = box.querySelectorAll('.mbr-m__nav');
     navs[0].style.display = navs[1].style.display = p.length > 1 ? '' : 'none';
     if (p.length) paintPhoto();
@@ -219,7 +233,7 @@
   function go(d) {
     var n = cur + d;
     if (n < 0 || n >= view.length) return;
-    cur = n; pic = 0; paint();
+    cur = n; pic = 0; paint(); slide(d);
   }
   /* Through the photos of this review, then on to the next review. */
   function move(d) {
@@ -228,7 +242,7 @@
     if (cur + d < 0 || cur + d >= view.length) return;
     cur += d;
     pic = d < 0 ? Math.max(photos(view[cur]).length - 1, 0) : 0;
-    paint();
+    paint(); slide(d);
   }
 
   function open(id) {
