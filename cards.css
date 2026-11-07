@@ -1,56 +1,56 @@
-/* New product cards, tried with ?cards=new. html.mb-cards is set by shim.js. */
+/* New product cards. html.mb-cards: catalogs, on for everyone. html.mb-cards-home: home page blocks, only with ?cards=new. Both set by shim.js. */
 html.mb-cards .t-catalog__card.js-product,
-html.mb-cards .t-store__card.js-product{position:relative;display:flex;flex-direction:column;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 8px 22px rgba(17,17,17,.1);padding:0!important}
+html.mb-cards-home .t-store__card.js-product{position:relative;display:flex;flex-direction:column;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 8px 22px rgba(17,17,17,.1);padding:0!important}
 html.mb-cards .t-catalog__card__mediawrapper,
-html.mb-cards .t-store__card>a:first-child{display:block;flex:none}
+html.mb-cards-home .t-store__card>a:first-child{display:block;flex:none}
 html.mb-cards .t-catalog__card__imgwrapper,
-html.mb-cards .t-store__card__imgwrapper{border-radius:0!important;margin:0!important}
+html.mb-cards-home .t-store__card__imgwrapper{border-radius:0!important;margin:0!important}
 html.mb-cards .t-catalog__card__contentwrapper,
-html.mb-cards .t-store__card__wrap_txt-and-btns{flex:1;display:flex;flex-direction:column;min-height:0;padding:10px!important;margin:0!important;height:auto!important}
+html.mb-cards-home .t-store__card__wrap_txt-and-btns{flex:1;display:flex;flex-direction:column;min-height:0;padding:10px!important;margin:0!important;height:auto!important}
 html.mb-cards .t-catalog__card__wrap_txt-and-btns,
 html.mb-cards .t-catalog__card__wrap_txt-and-opts,
-html.mb-cards .store__card__wrap_txt-and-opts{flex:1;display:flex;flex-direction:column;height:auto!important;padding:0!important;margin:0!important}
+html.mb-cards-home .store__card__wrap_txt-and-opts{flex:1;display:flex;flex-direction:column;height:auto!important;padding:0!important;margin:0!important}
 html.mb-cards .t-catalog__card__textwrapper{flex:1;display:flex;flex-direction:column;padding:0!important;margin:0!important}
 html.mb-cards .t-catalog__card__textwrapper>a,
-html.mb-cards .store__card__wrap_txt-and-opts>a,
-html.mb-cards .t-store__card__textwrapper{flex:1;display:flex!important;flex-direction:column;min-height:0;padding:0!important;margin:0!important;text-decoration:none}
+html.mb-cards-home .store__card__wrap_txt-and-opts>a,
+html.mb-cards-home .t-store__card__textwrapper{flex:1;display:flex!important;flex-direction:column;min-height:0;padding:0!important;margin:0!important;text-decoration:none}
 html.mb-cards .t-catalog__card__title,
-html.mb-cards .t-store__card__title{order:1;margin:0!important;padding:0!important;font-size:13px!important;line-height:1.3!important;font-weight:600!important;color:#111!important;display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;height:auto!important}
+html.mb-cards-home .t-store__card__title{order:1;margin:0!important;padding:0!important;font-size:13px!important;line-height:1.3!important;font-weight:600!important;color:#111!important;display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;height:auto!important}
 html.mb-cards .t-catalog__card__descr,
-html.mb-cards .t-store__card__descr{order:2;margin:5px 0 0!important;padding:0!important;font-size:11px!important;line-height:1.45!important;font-weight:500!important;color:#555!important;white-space:nowrap;overflow:hidden}
+html.mb-cards-home .t-store__card__descr{order:2;margin:5px 0 0!important;padding:0!important;font-size:11px!important;line-height:1.45!important;font-weight:500!important;color:#555!important;white-space:nowrap;overflow:hidden}
 html.mb-cards .t-catalog__card__descr strong,
-html.mb-cards .t-store__card__descr strong{font-weight:500!important;color:inherit!important}
+html.mb-cards-home .t-store__card__descr strong{font-weight:500!important;color:inherit!important}
 html.mb-cards .mb-rate{order:3;margin:4px 0 0!important;min-height:16px}
 html.mb-cards .t-catalog__card__price-wrapper,
-html.mb-cards .t-store__card__price-wrapper{order:4;margin:auto 0 0!important;padding:6px 52px 0 0!important;width:auto!important;min-height:52px;display:flex!important;flex-direction:column-reverse;justify-content:flex-start;align-items:flex-start;gap:0}
+html.mb-cards-home .t-store__card__price-wrapper{order:4;margin:auto 0 0!important;padding:6px 52px 0 0!important;width:auto!important;min-height:52px;display:flex!important;flex-direction:column-reverse;justify-content:flex-start;align-items:flex-start;gap:0}
 html.mb-cards .t-catalog__card__price-wrapper *,
-html.mb-cards .t-store__card__price-wrapper *{white-space:nowrap}
+html.mb-cards-home .t-store__card__price-wrapper *{white-space:nowrap}
 html.mb-cards .t-catalog__card__price,
-html.mb-cards .t-store__card__price{font-size:14px!important;font-weight:700!important;line-height:1.25!important;color:#111!important;margin:0!important;padding:0!important}
+html.mb-cards-home .t-store__card__price{font-size:14px!important;font-weight:700!important;line-height:1.25!important;color:#111!important;margin:0!important;padding:0!important}
 html.mb-cards .t-catalog__card__price_old,
-html.mb-cards .t-store__card__price_old{font-size:11px!important;font-weight:400!important;line-height:1.25!important;color:#8a8a8e!important;margin:0!important;padding:0!important}
+html.mb-cards-home .t-store__card__price_old{font-size:11px!important;font-weight:400!important;line-height:1.25!important;color:#8a8a8e!important;margin:0!important;padding:0!important}
 /* «Про товар» goes: the whole card opens the product */
 html.mb-cards .t-catalog__card .t-btnflex_type_button{display:none!important}
 html.mb-cards .t-catalog__card__price-buttons,
 html.mb-cards .t-catalog__card__btns-wrapper,
-html.mb-cards .t-store__card__btns-wrapper{position:static!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important}
+html.mb-cards-home .t-store__card__btns-wrapper{position:static!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important}
 html.mb-cards .t-catalog__card .t-btnflex_type_button2,
-html.mb-cards .t-store__card .t-store__card__btns-wrapper a{position:absolute!important;right:10px;bottom:10px;z-index:3;display:block!important;width:46px!important;min-width:0!important;height:46px!important;margin:0!important;padding:0!important;border:0!important;border-radius:14px!important;background:#111 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 8h12l1 13H5L6 8z'/%3E%3Cpath d='M9 8V6a3 3 0 016 0v2'/%3E%3C/svg%3E") 10px 9px/24px no-repeat!important;box-shadow:none!important;transition:transform .12s ease,background-color .16s ease}
+html.mb-cards-home .t-store__card .t-store__card__btns-wrapper a{position:absolute!important;right:10px;bottom:10px;z-index:3;display:block!important;width:46px!important;min-width:0!important;height:46px!important;margin:0!important;padding:0!important;border:0!important;border-radius:14px!important;background:#111 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 8h12l1 13H5L6 8z'/%3E%3Cpath d='M9 8V6a3 3 0 016 0v2'/%3E%3C/svg%3E") 10px 9px/24px no-repeat!important;box-shadow:none!important;transition:transform .12s ease,background-color .16s ease}
 html.mb-cards .t-catalog__card .t-btnflex_type_button2 *,
-html.mb-cards .t-store__card .t-store__card__btns-wrapper a *{display:none!important}
+html.mb-cards-home .t-store__card .t-store__card__btns-wrapper a *{display:none!important}
 html.mb-cards .t-catalog__card .t-btnflex_type_button2:after,
-html.mb-cards .t-store__card .t-store__card__btns-wrapper a:after{content:'';position:absolute;right:5px;bottom:5px;width:13px;height:13px;border-radius:50%;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 12 12' fill='none' stroke='%23111' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M6 1.5v9M1.5 6h9'/%3E%3C/svg%3E") center/9px no-repeat}
+html.mb-cards-home .t-store__card .t-store__card__btns-wrapper a:after{content:'';position:absolute;right:5px;bottom:5px;width:13px;height:13px;border-radius:50%;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 12 12' fill='none' stroke='%23111' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M6 1.5v9M1.5 6h9'/%3E%3C/svg%3E") center/9px no-repeat}
 html.mb-cards .t-catalog__card .t-btnflex_type_button2:active,
-html.mb-cards .t-store__card .t-store__card__btns-wrapper a:active{transform:scale(.94)}
+html.mb-cards-home .t-store__card .t-store__card__btns-wrapper a:active{transform:scale(.94)}
 @media (hover:hover){
 html.mb-cards .t-catalog__card .t-btnflex_type_button2:hover,
-html.mb-cards .t-store__card .t-store__card__btns-wrapper a:hover{background-color:#469bde!important}}
+html.mb-cards-home .t-store__card .t-store__card__btns-wrapper a:hover{background-color:#469bde!important}}
 @media (min-width:641px){
-html.mb-cards .t-catalog__card__title,html.mb-cards .t-store__card__title{font-size:15px!important}
-html.mb-cards .t-catalog__card__descr,html.mb-cards .t-store__card__descr{font-size:13px!important}
-html.mb-cards .t-catalog__card__price,html.mb-cards .t-store__card__price{font-size:17px!important}
-html.mb-cards .t-catalog__card__contentwrapper,html.mb-cards .t-store__card__wrap_txt-and-btns{padding:14px!important}
-html.mb-cards .t-catalog__card .t-btnflex_type_button2,html.mb-cards .t-store__card .t-store__card__btns-wrapper a{right:14px;bottom:14px}}
+html.mb-cards .t-catalog__card__title,html.mb-cards-home .t-store__card__title{font-size:15px!important}
+html.mb-cards .t-catalog__card__descr,html.mb-cards-home .t-store__card__descr{font-size:13px!important}
+html.mb-cards .t-catalog__card__price,html.mb-cards-home .t-store__card__price{font-size:17px!important}
+html.mb-cards .t-catalog__card__contentwrapper,html.mb-cards-home .t-store__card__wrap_txt-and-btns{padding:14px!important}
+html.mb-cards .t-catalog__card .t-btnflex_type_button2,html.mb-cards-home .t-store__card .t-store__card__btns-wrapper a{right:14px;bottom:14px}}
 
 /* Catalog only: framed card, full titles, less page padding so photos grow. */
 html.mb-cards .t-catalog__card__title{display:block!important;-webkit-line-clamp:none;overflow:visible}
@@ -74,5 +74,5 @@ html.mb-cards .t-catalog__card__descr{font-size:10.5px!important;letter-spacing:
 
 /* Already in the cart: same bag, green tick instead of the plus */
 html.mb-cards .js-product.mb-in .t-btnflex_type_button2:after,
-html.mb-cards .js-product.mb-in .t-store__card__btns-wrapper a:after{right:3px;bottom:3px;width:17px;height:17px;background:#1f9d55 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 12 12' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 6.5l2.3 2.3 4.7-5'/%3E%3C/svg%3E") center/11px no-repeat;animation:mb-in .25s cubic-bezier(.16,1,.3,1)}
+html.mb-cards-home .js-product.mb-in .t-store__card__btns-wrapper a:after{right:3px;bottom:3px;width:17px;height:17px;background:#1f9d55 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 12 12' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 6.5l2.3 2.3 4.7-5'/%3E%3C/svg%3E") center/11px no-repeat;animation:mb-in .25s cubic-bezier(.16,1,.3,1)}
 @keyframes mb-in{from{transform:scale(.4)}}
