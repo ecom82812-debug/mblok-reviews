@@ -3,7 +3,7 @@
    review loads the real SDK. Set ENABLED to false to return to direct Firebase. */
 (function () {
   'use strict';
-  var ENABLED = false;
+  var ENABLED = true;
   var on = ENABLED || /[?&]shim=1/.test(location.search);
   if (!on || window.__mbReviewsShim) return;
   window.__mbReviewsShim = true;
