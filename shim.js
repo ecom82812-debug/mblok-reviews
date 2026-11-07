@@ -14,11 +14,76 @@
   var config = null;
   var data = null;
 
+  var API = 'https://firestore.googleapis.com/v1/projects/shop-reviews-3aedd/databases/(default)/documents:runQuery';
+  var FIELDS = ['name', 'text', 'rating', 'photos', 'createdAt', 'verified', 'reply', 'productId', 'productName', 'productUrl'];
+  var FRESH_KEY = 'mb-reviews-fresh', FRESH_TTL = 5 * 60 * 1000, FRESH_WAIT = 1500;
+
+  function value(v) {
+    if ('stringValue' in v) return v.stringValue;
+    if ('integerValue' in v) return +v.integerValue;
+    if ('doubleValue' in v) return v.doubleValue;
+    if ('booleanValue' in v) return v.booleanValue;
+    if ('timestampValue' in v) return v.timestampValue;
+    if ('arrayValue' in v) return (v.arrayValue.values || []).map(value);
+    return null;
+  }
+
+  /* The newest approved reviews straight from the database, so an approved review
+     shows at once. One small request, only where reviews are read in full. */
+  function fresh() {
+    if (!/\/vidgyk|\/tproduct\//.test(location.pathname)) return Promise.resolve([]);
+    try {
+      var c = JSON.parse(sessionStorage.getItem(FRESH_KEY) || 'null');
+      if (c && Date.now() - c.t < FRESH_TTL) return Promise.resolve(c.rows);
+    } catch (e) {}
+    var query = fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ structuredQuery: {
+        select: { fields: FIELDS.map(function (f) { return { fieldPath: f }; }) },
+        from: [{ collectionId: 'reviews' }],
+        where: { fieldFilter: { field: { fieldPath: 'status' }, op: 'EQUAL', value: { stringValue: 'approved' } } },
+        orderBy: [{ field: { fieldPath: 'createdAt' }, direction: 'DESCENDING' }],
+        limit: 15
+      } })
+    }).then(function (r) {
+      if (!r.ok) throw new Error('fresh ' + r.status);
+      return r.json();
+    }).then(function (list) {
+      var rows = [];
+      list.forEach(function (x) {
+        if (!x.document) return;
+        var f = x.document.fields, r = { id: x.document.name.split('/').pop() };
+        FIELDS.forEach(function (k) { if (f[k]) r[k] = value(f[k]); });
+        r.productId = String(r.productId || '');
+        r.rating = r.rating || 0;
+        r.photos = r.photos || [];
+        rows.push(r);
+      });
+      try { sessionStorage.setItem(FRESH_KEY, JSON.stringify({ t: Date.now(), rows: rows })); } catch (e) {}
+      return rows;
+    });
+    var timeout = new Promise(function (ok) { setTimeout(function () { ok([]); }, FRESH_WAIT); });
+    return Promise.race([query, timeout]).catch(function () { return []; });
+  }
+
   function all() {
     if (!data) {
-      data = fetch(BASE + 'all.json').then(function (r) {
+      var file = fetch(BASE + 'all.json').then(function (r) {
         if (!r.ok) throw new Error('reviews ' + r.status);
         return r.json();
+      });
+      var latest = fresh();
+      data = file.then(function (rows) {
+        return latest.then(function (extra) {
+          var known = {};
+          rows.forEach(function (r) { known[r.id] = 1; });
+          var added = extra.filter(function (r) { return !known[r.id]; });
+          if (!added.length) return rows;
+          return added.concat(rows).sort(function (a, b) {
+            return String(b.createdAt || '').localeCompare(String(a.createdAt || ''));
+          });
+        });
       });
     }
     return data;
