@@ -52,16 +52,21 @@ html.mb-cards .t-catalog__card__price,html.mb-cards .t-store__card__price{font-s
 html.mb-cards .t-catalog__card__contentwrapper,html.mb-cards .t-store__card__wrap_txt-and-btns{padding:14px!important}
 html.mb-cards .t-catalog__card .t-btnflex_type_button2,html.mb-cards .t-store__card .t-store__card__btns-wrapper a{right:14px;bottom:14px}}
 
-/* Catalog only: no card background, full titles, bigger photos on computers. */
-html.mb-cards .t-catalog__card.js-product{background:none;border-radius:0;overflow:visible;box-shadow:none}
-html.mb-cards .t-catalog__card__imgwrapper{border-radius:14px!important;overflow:hidden}
-html.mb-cards .t-catalog__card__contentwrapper{padding:10px 0 0!important}
+/* Catalog only: framed card, full titles, less page padding so photos grow. */
 html.mb-cards .t-catalog__card__title{display:block!important;-webkit-line-clamp:none;overflow:visible}
-html.mb-cards .t-catalog__card .t-btnflex_type_button2{right:0!important;bottom:0!important}
+html.mb-cards .t-catalog__card-list{row-gap:16px!important}
 @media (min-width:961px){
 html.mb-cards .t-catalog__cont-w-filter{padding-left:24px!important;padding-right:24px!important}
 html.mb-cards .t-catalog__cont-wrapper{column-gap:24px!important}
 html.mb-cards .t-catalog__cont-wrapper>.t-catalog__filter-wrapper,html.mb-cards .t-catalog__filter-wrapper{flex:0 0 270px!important;width:270px!important;max-width:270px!important;min-width:0!important;box-sizing:border-box!important;padding-left:10px!important;padding-right:10px!important}
 html.mb-cards .t-catalog__filter-wrapper .js-sidebar-parts,html.mb-cards .t-catalog__filter-wrapper .js-sidebar-filters{width:100%!important;max-width:100%!important}
 html.mb-cards .t-catalog__cont-wrapper .js-catalog-grid-cont{flex:1 1 0!important;min-width:0!important;width:auto!important;max-width:none!important}
+}
+@media (max-width:640px){
+html.mb-cards .t-catalog__cont-w-filter{padding-left:8px!important;padding-right:8px!important}
+html.mb-cards .t-catalog__card-list{row-gap:10px!important;column-gap:8px!important}
+html.mb-cards .t-catalog__card.js-product{flex:0 0 calc(50% - 4px)!important;width:calc(50% - 4px)!important;max-width:calc(50% - 4px)!important;border-radius:14px}
+html.mb-cards .t-catalog__card__contentwrapper{padding:8px!important}
+html.mb-cards .t-catalog__card__title{font-size:12px!important;font-weight:500!important;line-height:1.3!important}
+html.mb-cards .t-catalog__card .t-btnflex_type_button2{right:8px;bottom:8px}
 }
