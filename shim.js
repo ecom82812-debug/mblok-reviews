@@ -139,11 +139,26 @@
     }).then(function () {
       var real = window.firebase;
       if (!real.apps.length) real.initializeApp(config);
+      var stamp = real.firestore.FieldValue.serverTimestamp();
       var copy = {};
+      var contact = {};
       Object.keys(doc).forEach(function (k) {
-        copy[k] = doc[k] === STAMP ? real.firestore.FieldValue.serverTimestamp() : doc[k];
+        if (k === 'email' || k === 'phone') {
+          if (doc[k]) contact[k] = doc[k];
+        } else {
+          copy[k] = doc[k] === STAMP ? stamp : doc[k];
+        }
       });
-      return real.firestore().collection('reviews').add(copy);
+      /* Review documents are public once approved, so contacts go to a closed collection. */
+      var db = real.firestore();
+      var ref = db.collection('reviews').doc();
+      var batch = db.batch();
+      batch.set(ref, copy);
+      if (Object.keys(contact).length) {
+        contact.createdAt = stamp;
+        batch.set(db.collection('reviewContacts').doc(ref.id), contact);
+      }
+      return batch.commit().then(function () { return ref; });
     }).then(function (ref) {
       window.firebase = shim;
       return ref;
