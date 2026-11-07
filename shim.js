@@ -14,76 +14,91 @@
   var config = null;
   var data = null;
 
-  var API = 'https://firestore.googleapis.com/v1/projects/shop-reviews-3aedd/databases/(default)/documents:runQuery';
+  var MODULES = 'https://www.gstatic.com/firebasejs/10.12.2/';
+  var FIRESTORE = { apiKey: 'AIzaSyCS-7Vn4X_NDxbEGyTrb1JQewf1QCQNffA', projectId: 'shop-reviews-3aedd' };
   var FIELDS = ['name', 'text', 'rating', 'photos', 'createdAt', 'verified', 'reply', 'productId', 'productName', 'productUrl'];
-  var FRESH_KEY = 'mb-reviews-fresh', FRESH_TTL = 5 * 60 * 1000, FRESH_WAIT = 1500;
+  var FRESH_KEY = 'mb-reviews-fresh', FRESH_TTL = 5 * 60 * 1000, FRESH_DELAY = 500;
+  var REVIEW_PAGE = /\/vidgyk|\/tproduct\//.test(location.pathname);
+  var live = null;
 
-  function value(v) {
-    if ('stringValue' in v) return v.stringValue;
-    if ('integerValue' in v) return +v.integerValue;
-    if ('doubleValue' in v) return v.doubleValue;
-    if ('booleanValue' in v) return v.booleanValue;
-    if ('timestampValue' in v) return v.timestampValue;
-    if ('arrayValue' in v) return (v.arrayValue.values || []).map(value);
-    return null;
-  }
-
-  /* The newest approved reviews straight from the database, so an approved review
-     shows at once. One small request, only where reviews are read in full. */
-  function fresh() {
-    if (!/\/vidgyk|\/tproduct\//.test(location.pathname)) return Promise.resolve([]);
+  function remembered() {
+    if (!REVIEW_PAGE) return null;
     try {
       var c = JSON.parse(sessionStorage.getItem(FRESH_KEY) || 'null');
-      if (c && Date.now() - c.t < FRESH_TTL) return Promise.resolve(c.rows);
-    } catch (e) {}
-    var query = fetch(API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ structuredQuery: {
-        select: { fields: FIELDS.map(function (f) { return { fieldPath: f }; }) },
-        from: [{ collectionId: 'reviews' }],
-        where: { fieldFilter: { field: { fieldPath: 'status' }, op: 'EQUAL', value: { stringValue: 'approved' } } },
-        orderBy: [{ field: { fieldPath: 'createdAt' }, direction: 'DESCENDING' }],
-        limit: 15
-      } })
-    }).then(function (r) {
-      if (!r.ok) throw new Error('fresh ' + r.status);
-      return r.json();
-    }).then(function (list) {
-      var rows = [];
-      list.forEach(function (x) {
-        if (!x.document) return;
-        var f = x.document.fields, r = { id: x.document.name.split('/').pop() };
-        FIELDS.forEach(function (k) { if (f[k]) r[k] = value(f[k]); });
-        r.productId = String(r.productId || '');
-        r.rating = r.rating || 0;
-        r.photos = r.photos || [];
-        rows.push(r);
-      });
-      try { sessionStorage.setItem(FRESH_KEY, JSON.stringify({ t: Date.now(), rows: rows })); } catch (e) {}
-      return rows;
+      return c && Date.now() - c.t < FRESH_TTL ? c.rows : null;
+    } catch (e) { return null; }
+  }
+
+  function merge(rows, extra) {
+    var known = {};
+    rows.forEach(function (r) { known[r.id] = 1; });
+    var added = extra.filter(function (r) { return !known[r.id]; });
+    if (!added.length) return rows;
+    return added.concat(rows).sort(function (a, b) {
+      return String(b.createdAt || '').localeCompare(String(a.createdAt || ''));
     });
-    var timeout = new Promise(function (ok) { setTimeout(function () { ok([]); }, FRESH_WAIT); });
-    return Promise.race([query, timeout]).catch(function () { return []; });
+  }
+
+  function pageReady() {
+    return new Promise(function (ok) {
+      function later() { setTimeout(ok, FRESH_DELAY); }
+      if (document.readyState === 'complete') later();
+      else window.addEventListener('load', later, { once: true });
+    });
+  }
+
+  /* The newest approved reviews, read through the SDK because the Firestore REST
+     endpoint answers 429 for this project. */
+  function newest() {
+    return Promise.all([
+      import(MODULES + 'firebase-app.js'),
+      import(MODULES + 'firebase-firestore.js')
+    ]).then(function (m) {
+      var F = m[1];
+      var db = F.getFirestore(m[0].initializeApp(FIRESTORE, 'mb-reviews-fresh'));
+      return F.getDocs(F.query(F.collection(db, 'reviews'), F.where('status', '==', 'approved'),
+        F.orderBy('createdAt', 'desc'), F.limit(15))).then(function (snap) {
+        var rows = snap.docs.map(function (d) {
+          var src = d.data(), r = { id: d.id };
+          FIELDS.forEach(function (k) {
+            if (src[k] === undefined || src[k] === null) return;
+            r[k] = src[k].toDate ? src[k].toDate().toISOString() : src[k];
+          });
+          r.productId = String(r.productId || '');
+          r.rating = r.rating || 0;
+          r.photos = r.photos || [];
+          return r;
+        });
+        F.terminate(db);
+        return rows;
+      });
+    });
+  }
+
+  /* Runs once, after the page has shown the file. Resolves to the merged list only
+     when the database holds reviews the file does not have yet. */
+  function latest() {
+    if (!live) {
+      live = !REVIEW_PAGE || remembered() ? Promise.resolve(null) : pageReady().then(newest).then(function (extra) {
+        try { sessionStorage.setItem(FRESH_KEY, JSON.stringify({ t: Date.now(), rows: extra })); } catch (e) {}
+        return all().then(function (rows) {
+          var merged = merge(rows, extra);
+          if (merged === rows) return null;
+          data = Promise.resolve(merged);
+          return merged;
+        });
+      }).catch(function () { return null; });
+    }
+    return live;
   }
 
   function all() {
     if (!data) {
-      var file = fetch(BASE + 'all.json').then(function (r) {
+      data = fetch(BASE + 'all.json').then(function (r) {
         if (!r.ok) throw new Error('reviews ' + r.status);
         return r.json();
-      });
-      var latest = fresh();
-      data = file.then(function (rows) {
-        return latest.then(function (extra) {
-          var known = {};
-          rows.forEach(function (r) { known[r.id] = 1; });
-          var added = extra.filter(function (r) { return !known[r.id]; });
-          if (!added.length) return rows;
-          return added.concat(rows).sort(function (a, b) {
-            return String(b.createdAt || '').localeCompare(String(a.createdAt || ''));
-          });
-        });
+      }).then(function (rows) {
+        return merge(rows, remembered() || []);
       });
     }
     return data;
@@ -99,25 +114,42 @@
     };
   }
 
-  function Query(filters, cap) {
+  function Query(filters, cap, sorted) {
     this.filters = filters || [];
     this.cap = cap;
+    this.sorted = sorted;
   }
   Query.prototype.where = function (field, op, value) {
-    return new Query(this.filters.concat([[field, value]]), this.cap);
+    return new Query(this.filters.concat([[field, value]]), this.cap, this.sorted);
   };
-  Query.prototype.orderBy = function () { return this; };
-  Query.prototype.limit = function (n) { return new Query(this.filters, n); };
-  Query.prototype.get = function () {
-    var filters = this.filters, cap = this.cap;
-    return all().then(function (rows) {
-      var out = rows.filter(function (r) {
-        return filters.every(function (f) {
-          return f[0] === 'status' ? f[1] === 'approved' : String(r[f[0]]) === String(f[1]);
-        });
+  Query.prototype.orderBy = function () { return new Query(this.filters, this.cap, true); };
+  Query.prototype.limit = function (n) { return new Query(this.filters, n, this.sorted); };
+  Query.prototype.pick = function (rows) {
+    var filters = this.filters;
+    var out = rows.filter(function (r) {
+      return filters.every(function (f) {
+        return f[0] === 'status' ? f[1] === 'approved' : String(r[f[0]]) === String(f[1]);
       });
-      return snapshot(cap ? out.slice(0, cap) : out);
     });
+    return this.cap ? out.slice(0, this.cap) : out;
+  };
+  /* Review lists (sorted queries) render from the file at once and render again only
+     if the database adds a review to this list. Card ratings stay on the file. */
+  Query.prototype.get = function () {
+    var self = this;
+    var first = all().then(function (rows) { return self.pick(rows); });
+    if (!self.sorted) return first.then(snapshot);
+    return {
+      then: function (ok, fail) {
+        var done = first.then(function (rows) { return ok(snapshot(rows)); }, fail);
+        Promise.all([first, latest()]).then(function (r) {
+          if (!r[1]) return;
+          var after = self.pick(r[1]);
+          if (after.length !== r[0].length) ok(snapshot(after));
+        }).catch(function () {});
+        return done;
+      }
+    };
   };
   Query.prototype.add = function (doc) { return send(doc); };
 
