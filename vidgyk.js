@@ -329,7 +329,8 @@
       sheet.setAttribute('role', 'dialog');
       sheet.setAttribute('aria-modal', 'true');
       sheet.setAttribute('aria-label', 'Написати відгук');
-      sheet.innerHTML = '<div class="mbr-f__box"><button type="button" class="mbr-m__x" aria-label="Закрити">' + ARROW('M6 6l12 12M18 6L6 18') + '</button></div>';
+      sheet.innerHTML = '<div class="mbr-f__box"><button type="button" class="mbr-m__x" aria-label="Закрити">' + ARROW('M6 6l12 12M18 6L6 18') + '</button>' +
+        '<button type="button" class="mbr-f__share" aria-label="Поділитися посиланням на відгук">' + ARROW('M12 15V4M8 7.5L12 3.5l4 4M7 11H5v10h14V11h-2') + '<span role="status"></span></button></div>';
       document.body.appendChild(sheet);
       sheet.querySelector('.mbr-f__box').appendChild(old);
       sheet.querySelector('.mbr-f__box').insertAdjacentHTML('beforeend', '<div class="mbr-f__done" role="status"><span class="mbr-f__tick" aria-hidden="true">' +
@@ -344,6 +345,7 @@
       if (head && title) head.insertAdjacentHTML('afterend', '<div class="mbr-f__prod">' + esc(title.textContent.trim()) + '</div>');
       sheet.addEventListener('click', function (e) {
         if (e.target === sheet || e.target.closest('.mbr-m__x') || e.target.closest('.mbr-f__ok')) closeForm();
+        if (e.target.closest('.mbr-f__share')) shareForm();
       });
     }
     sheet.classList.add('is-open');
@@ -360,6 +362,23 @@
     }
     history.replaceState(history.state, '', location.href.replace(/([?&])review=1(&|$)/, function (m, a, b) { return b ? a : ''; }));
     openForm();
+  }
+
+  /* The phone's share sheet with a link that opens this form; copies the link where there is none. */
+  function shareForm() {
+    var url = location.origin + location.pathname + '?review=1';
+    var note = sheet.querySelector('.mbr-f__share span');
+    function copied() {
+      note.textContent = 'Скопійовано';
+      setTimeout(function () { note.textContent = ''; }, 1800);
+    }
+    if (navigator.share) {
+      navigator.share({ title: 'Залиште відгук про товар', url: url }).catch(function () {});
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(copied, function () { window.prompt('Посилання на відгук', url); });
+    } else {
+      window.prompt('Посилання на відгук', url);
+    }
   }
 
   function doneForm() {
