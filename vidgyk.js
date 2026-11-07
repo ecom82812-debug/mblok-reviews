@@ -332,8 +332,16 @@
       sheet.innerHTML = '<div class="mbr-f__box"><button type="button" class="mbr-m__x" aria-label="Закрити">' + ARROW('M6 6l12 12M18 6L6 18') + '</button></div>';
       document.body.appendChild(sheet);
       sheet.querySelector('.mbr-f__box').appendChild(old);
+      sheet.querySelector('.mbr-f__box').insertAdjacentHTML('beforeend', '<div class="mbr-f__done" role="status"><span class="mbr-f__tick" aria-hidden="true">' +
+        '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>' +
+        '<h3>Дякуємо за відгук!</h3><p>Ми перевіримо його і незабаром опублікуємо на сторінці товару.</p><button type="button" class="mbr-p__write mbr-f__ok">Добре</button></div>');
+      /* The old form reports success in its message line: show the thank-you window instead. */
+      var msg = sheet.querySelector('#rw-msg');
+      if (msg) new MutationObserver(function () {
+        if (/Дякуємо/.test(msg.textContent)) doneForm();
+      }).observe(msg, { childList: true, characterData: true, subtree: true });
       sheet.addEventListener('click', function (e) {
-        if (e.target === sheet || e.target.closest('.mbr-m__x')) closeForm();
+        if (e.target === sheet || e.target.closest('.mbr-m__x') || e.target.closest('.mbr-f__ok')) closeForm();
       });
     }
     sheet.classList.add('is-open');
@@ -341,10 +349,20 @@
     history.pushState({ mbr: 2 }, '');
     sheetPushed = true;
   }
+  function doneForm() {
+    sheet.classList.add('is-done');
+    sheet.querySelector('.mbr-f__ok').focus();
+  }
   function hideForm() {
     if (!sheet) return;
     sheet.classList.remove('is-open');
     document.documentElement.style.overflow = '';
+    if (!sheet.classList.contains('is-done')) return;
+    /* Ready for another review. */
+    sheet.classList.remove('is-done');
+    var send = sheet.querySelector('#rw-submit'), msg = sheet.querySelector('#rw-msg');
+    if (send) { send.disabled = false; send.textContent = 'Надіслати відгук'; }
+    if (msg) msg.innerHTML = '';
   }
   function closeForm() {
     if (sheetPushed) { sheetPushed = false; history.back(); } else hideForm();

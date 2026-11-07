@@ -163,6 +163,16 @@
 #mbr-f .rw-submit{width:100%;padding:15px 18px;background:#111;color:#fff;border:0;border-radius:0;font:600 14px Montserrat,Arial,sans-serif}
 #mbr-f .rw-submit:hover:not(:disabled){background:var(--blue)}
 .rw-inline svg path{fill:#111;stroke:#111}
+.mbr-f__done{display:none;padding:36px 28px 28px;text-align:center}
+.is-done .mbr-f__done{display:block;animation:mbr-pop .22s cubic-bezier(.16,1,.3,1) both}
+#mbr-f.is-done .rw-widget{display:none!important}
+#mbr-f.is-done .mbr-f__box{width:min(420px,100%);height:auto}
+.mbr-f__tick{display:inline-flex;align-items:center;justify-content:center;width:60px;height:60px;background:#111;color:#fff}
+.mbr-f__tick path{stroke-dasharray:24;animation:mbr-draw .4s .12s ease-out both}
+@keyframes mbr-draw{from{stroke-dashoffset:24}to{stroke-dashoffset:0}}
+.mbr-f__done h3{margin:18px 0 8px;font-size:22px;font-weight:700;line-height:1.2}
+.mbr-f__done p{margin:0;font-size:15px;line-height:1.5;color:#666}
+.mbr-f__done .mbr-f__ok{justify-content:center;margin-top:22px}
 
 .mbr-row-c{display:block;padding:14px;border:1px solid var(--line);border-radius:12px;background:#fff;cursor:pointer}
 .mbr-row-c:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
@@ -224,6 +234,7 @@
   .mbr-strip{margin:0 -12px 14px;padding:0 12px;scroll-snap-type:x proximity}
   .mbr-strip button{flex-basis:128px;height:128px;scroll-snap-align:start;scroll-margin-left:12px}
   #mbr-f{padding:0}
+  #mbr-f.is-done{padding:16px}
   .mbr-f__box{width:100%;height:100%;height:100dvh;max-height:none}
   #mbr-f .rw-widget{padding:18px 16px calc(24px + env(safe-area-inset-bottom))}
   .mbr-m__foot{grid-template-columns:52px minmax(0,1fr) 52px;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
