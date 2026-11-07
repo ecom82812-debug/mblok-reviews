@@ -3,6 +3,7 @@
   var root = document.querySelector('.mbr');
   if (!root || root.__ready) return;
   root.__ready = true;
+  var pid = root.getAttribute('data-product') || '';
 
   var FIREBASE = { apiKey: 'AIzaSyCS-7Vn4X_NDxbEGyTrb1JQewf1QCQNffA', projectId: 'shop-reviews-3aedd' };
   var FILE = 'https://ecom82812-debug.github.io/mblok-reviews/all.json';
@@ -19,7 +20,7 @@
   var filter = 'all', sort = 'new', query = '';
   var $ = function (id) { return document.getElementById(id); };
   var small = function () { return window.innerWidth <= 640; };
-  var step = function () { return small() ? 8 : 12; };
+  var step = function () { return pid ? 4 : small() ? 8 : 12; };
 
   function esc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML.replace(/"/g, '&quot;'); }
   function cld(u, t) { return !u || u.indexOf('/upload/') < 0 ? u : u.replace('/upload/', '/upload/' + t + '/'); }
@@ -72,9 +73,20 @@
     $('mbr-wall').innerHTML = h;
   }
 
+  /* Product page: every photo of this product, each opens its review. */
+  function paintStrip() {
+    var list = [];
+    all.forEach(function (r) { photos(r).forEach(function (u, i) { list.push([r, u, i]); }); });
+    var box = $('mbr-strip');
+    box.style.display = list.length ? '' : 'none';
+    box.innerHTML = list.slice(0, 12).map(function (x) {
+      return '<button type="button" data-id="' + esc(x[0].id) + '" data-pic="' + x[2] + '" aria-label="Фото покупця"><img src="' + esc(tiny(x[1])) + '" alt="" loading="lazy" decoding="async"></button>';
+    }).join('');
+  }
+
   function paintChips() {
     var list = [['all', 'Усі'], ['photo', 'З фото'], ['5', '5 зірок'], ['low', '4 і нижче']];
-    $('mbr-chips').innerHTML = list.map(function (c) {
+    if ($('mbr-chips')) $('mbr-chips').innerHTML = list.map(function (c) {
       return '<button type="button" class="mbr-chip' + (filter === c[0] ? ' is-on' : '') + '" data-f="' + c[0] + '" aria-pressed="' + (filter === c[0]) + '">' + c[1] +
         ' <span>' + all.filter(function (r) { return match(r, c[0]); }).length + '</span></button>';
     }).join('');
@@ -90,13 +102,13 @@
     h += '<div class="mbr-card__b"><div class="mbr-card__t">' + stars(r.rating) + '<span class="mbr-date">' + date(r) + '</span></div>';
     h += r.text ? '<p class="mbr-card__x">' + esc(r.text) + '</p>' : (p.length ? '' : '<p class="mbr-card__x is-empty">Оцінка без коментаря</p>');
     h += '<div class="mbr-who"><span>' + esc(r.name || 'Покупець') + '</span>' + (r.verified ? TICK : '') + '</div>';
-    if (r.productName && r.productUrl) {
+    if (!pid && r.productName && r.productUrl) {
       h += '<a class="mbr-prod" href="' + esc(r.productUrl) + '"><span>' + esc(r.productName) + '</span><span aria-hidden="true">→</span></a>';
     }
     return h + '</div></article>';
   }
 
-  function colCount() { var w = window.innerWidth; return w >= 1000 ? 3 : 2; }
+  function colCount() { return !pid && window.innerWidth >= 1000 ? 3 : 2; }
 
   function addCards(from, to) {
     view.slice(from, to).forEach(function (r) {
@@ -222,8 +234,8 @@
       (r.reply ? '<div class="mbr-m__reply"><b>Відповідь mBlok</b>' + esc(r.reply) + '</div>' : '');
     box.querySelector('.mbr-m__sc').scrollTop = 0;
     box.querySelector('.mbr-m__foot').innerHTML =
-      (r.productName && r.productUrl ? '<span class="mbr-m__prod">' + esc(r.productName) + '</span>' : '') +
-      (r.productUrl ? '<a class="mbr-m__go" href="' + esc(r.productUrl) + '"><span class="mbr-m__gl">Перейти до товару</span><span class="mbr-m__gs">До товару</span><span aria-hidden="true">→</span></a>' : '') +
+      (!pid && r.productName && r.productUrl ? '<span class="mbr-m__prod">' + esc(r.productName) + '</span>' : '') +
+      (!pid && r.productUrl ? '<a class="mbr-m__go" href="' + esc(r.productUrl) + '"><span class="mbr-m__gl">Перейти до товару</span><span class="mbr-m__gs">До товару</span><span aria-hidden="true">→</span></a>' : '') +
       '<button type="button" class="mbr-m__pv" data-go="-1" aria-label="Попередній відгук"' + (cur ? '' : ' disabled') + '><span aria-hidden="true">←</span><span class="mbr-m__gl"> Попередній</span></button>' +
       '<span class="mbr-m__pos">Відгук ' + (cur + 1) + ' з ' + view.length + '</span>' +
       '<button type="button" class="mbr-m__nx" data-go="1" aria-label="Наступний відгук"' + (cur < view.length - 1 ? '' : ' disabled') + '><span class="mbr-m__gl">Наступний </span><span aria-hidden="true">→</span></button>';
@@ -245,17 +257,17 @@
     play(d > 0 ? 'pic-next' : 'pic-prev');
   }
 
-  function open(id) {
+  function open(id, startPic) {
     if (!box) build();
     var i = -1;
     view.forEach(function (r, n) { if (r.id === id) i = n; });
     if (i < 0) {
-      filter = 'all'; query = ''; $('mbr-q').value = ''; apply();
+      filter = 'all'; query = ''; if ($('mbr-q')) $('mbr-q').value = ''; apply();
       view.forEach(function (r, n) { if (r.id === id) i = n; });
       if (i < 0) return;
     }
     back = document.activeElement;
-    cur = i; pic = 0;
+    cur = i; pic = Math.min(startPic || 0, Math.max(photos(view[i]).length - 1, 0));
     if (!box.classList.contains('is-open')) { history.pushState({ mbr: 1 }, ''); pushed = true; }
     box.classList.add('is-open');
     document.documentElement.style.overflow = 'hidden';
@@ -286,6 +298,42 @@
     }
   });
 
+  /* Product page: the existing form, moved into a window. Its sending logic stays as it was. */
+  var sheet, sheetPushed = false;
+  function openForm() {
+    var old = document.querySelector('.rw-widget');
+    if (!old) return;
+    if (!sheet) {
+      sheet = document.createElement('div');
+      sheet.id = 'mbr-f';
+      sheet.setAttribute('role', 'dialog');
+      sheet.setAttribute('aria-modal', 'true');
+      sheet.setAttribute('aria-label', 'Написати відгук');
+      sheet.innerHTML = '<div class="mbr-f__box"><button type="button" class="mbr-m__x" aria-label="Закрити">' + ARROW('M6 6l12 12M18 6L6 18') + '</button></div>';
+      document.body.appendChild(sheet);
+      sheet.querySelector('.mbr-f__box').appendChild(old);
+      sheet.addEventListener('click', function (e) {
+        if (e.target === sheet || e.target.closest('.mbr-m__x')) closeForm();
+      });
+    }
+    sheet.classList.add('is-open');
+    document.documentElement.style.overflow = 'hidden';
+    history.pushState({ mbr: 2 }, '');
+    sheetPushed = true;
+  }
+  function hideForm() {
+    if (!sheet) return;
+    sheet.classList.remove('is-open');
+    document.documentElement.style.overflow = '';
+  }
+  function closeForm() {
+    if (sheetPushed) { sheetPushed = false; history.back(); } else hideForm();
+  }
+  window.addEventListener('popstate', function () { sheetPushed = false; hideForm(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && sheet && sheet.classList.contains('is-open')) closeForm();
+  });
+
   /* Start fetching the big photo as soon as a visitor aims at a review. */
   var aim;
   function aimAt(e) {
@@ -301,14 +349,15 @@
 
   root.addEventListener('click', function (e) {
     if (e.target.closest('.mbr-prod')) return;
+    if (e.target.closest('#mbr-write')) { openForm(); return; }
     var f = e.target.closest('[data-f]');
     if (f) {
       var bar = f.classList.contains('mbr-bar');
       setFilter(bar && filter === f.dataset.f ? 'all' : f.dataset.f);
-      if (bar) $('mbr-tools').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (bar && !pid) $('mbr-tools').scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
-    if (e.target.closest('[data-reset]')) { filter = 'all'; query = ''; $('mbr-q').value = ''; apply(); return; }
+    if (e.target.closest('[data-reset]')) { filter = 'all'; query = ''; if ($('mbr-q')) $('mbr-q').value = ''; apply(); return; }
     if (e.target.closest('#mbr-more-btn')) {
       var from = shown;
       shown = Math.min(shown + step(), view.length);
@@ -317,18 +366,18 @@
       return;
     }
     var c = e.target.closest('[data-id]');
-    if (c) open(c.dataset.id);
+    if (c) open(c.dataset.id, +c.getAttribute('data-pic') || 0);
   });
   root.addEventListener('keydown', function (e) {
     if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('mbr-card')) { e.preventDefault(); open(e.target.dataset.id); }
   });
   var qt;
-  $('mbr-q').addEventListener('input', function () {
+  if ($('mbr-q')) $('mbr-q').addEventListener('input', function () {
     var v = this.value.trim();
     clearTimeout(qt);
     qt = setTimeout(function () { query = v; apply(); }, 160);
   });
-  $('mbr-sort').addEventListener('change', function () { sort = this.value; apply(); });
+  if ($('mbr-sort')) $('mbr-sort').addEventListener('change', function () { sort = this.value; apply(); });
 
   var wide = colCount(), rt;
   window.addEventListener('resize', function () {
@@ -338,19 +387,28 @@
 
   function show(rows) {
     all = rows.sort(function (a, b) { return time(b) - time(a); });
+    root.classList.toggle('is-empty', !all.length);
     if (!all.length) {
-      $('mbr-grid').innerHTML = '<div class="mbr-empty">Відгуків поки немає. Ваш може стати першим: залиште його на сторінці товару.</div>';
+      if (pid) {
+        $('mbr-score').innerHTML = '<p class="mbr-p__none">Ще немає відгуків про цей товар. Будьте першим!</p>';
+        $('mbr-grid').innerHTML = '';
+      } else {
+        $('mbr-grid').innerHTML = '<div class="mbr-empty">Відгуків поки немає. Ваш може стати першим: залиште його на сторінці товару.</div>';
+      }
       return;
     }
     paintScore();
-    paintWall();
+    if ($('mbr-wall')) paintWall();
+    if ($('mbr-strip')) paintStrip();
     apply();
     var m = /^#review-(.+)$/.exec(location.hash);
     if (m && !(box && box.classList.contains('is-open'))) open(m[1]);
   }
   function fail() { $('mbr-grid').innerHTML = '<div class="mbr-empty">Не вдалося завантажити відгуки. Оновіть сторінку.</div>'; }
   function fromFile() {
-    fetch(FILE).then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(show).catch(fail);
+    fetch(FILE).then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (rows) {
+      show(pid ? rows.filter(function (r) { return String(r.productId) === pid; }) : rows);
+    }).catch(fail);
   }
 
   /* The site's reviews layer answers these calls and adds reviews approved a moment ago. */
@@ -359,7 +417,9 @@
     var fb = window.firebase;
     if (fb && fb.firestore) {
       if (!fb.apps.length) fb.initializeApp(FIREBASE);
-      fb.firestore().collection('reviews').where('status', '==', 'approved').orderBy('createdAt', 'desc').get().then(function (snap) {
+      var q = fb.firestore().collection('reviews');
+      if (pid) q = q.where('productId', '==', pid);
+      q.where('status', '==', 'approved').orderBy('createdAt', 'desc').get().then(function (snap) {
         var rows = [];
         snap.forEach(function (d) { rows.push(Object.assign({ id: d.id }, d.data())); });
         show(rows);

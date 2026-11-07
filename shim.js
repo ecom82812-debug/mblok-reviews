@@ -211,6 +211,14 @@
     firestore: firestore
   };
 
+  /* New reviews block in product cards. Only with ?rw=new until it is approved. */
+  if (/\/tproduct\//.test(location.pathname) && /[?&]rw=new/.test(location.search)) {
+    var product = document.createElement('script');
+    product.src = BASE + 'product.js?v=1';
+    product.async = true;
+    nativeAppend.call(document.head, product);
+  }
+
   /* Existing scripts add the SDK themselves: report it as loaded without fetching it. */
   document.head.appendChild = function (node) {
     if (node && node.tagName === 'SCRIPT' && /firebasejs/.test(node.src || '')) {
