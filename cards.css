@@ -69,4 +69,5 @@ html.mb-cards .t-catalog__card.js-product{flex:0 0 calc(50% - 4px)!important;wid
 html.mb-cards .t-catalog__card__contentwrapper{padding:8px!important}
 html.mb-cards .t-catalog__card__title{font-size:12px!important;font-weight:500!important;line-height:1.3!important}
 html.mb-cards .t-catalog__card .t-btnflex_type_button2{right:8px;bottom:8px}
+html.mb-cards .t-catalog__card__descr{font-size:10.5px!important;letter-spacing:-.1px}
 }
