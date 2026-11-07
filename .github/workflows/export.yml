@@ -12,6 +12,8 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - run: npm install --no-save --no-audit --no-fund firebase@10.12.2
       - run: node scripts/fetch.mjs "$RUNNER_TEMP/reviews.json"
       - run: python3 scripts/export.py "$RUNNER_TEMP/reviews.json"
@@ -21,4 +23,11 @@ jobs:
           git config user.name 'reviews-export'
           git config user.email 'reviews-export@users.noreply.github.com'
           git add -A
-          git diff --cached --quiet || { git commit -m 'Update reviews' && git push; }
+          git diff --cached --quiet && exit 0
+          git commit -m 'Update reviews'
+          for i in 1 2 3 4 5; do
+            git push && exit 0
+            sleep $((i * 3))
+            git pull --rebase -X theirs origin main
+          done
+          exit 1
