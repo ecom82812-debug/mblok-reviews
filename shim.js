@@ -253,6 +253,27 @@
     else watchMenu();
   }
 
+  /* New product cards: on trial with ?cards=new, remembered for the visit, ?cards=off ends it. */
+  try {
+    if (/[?&]cards=new/.test(location.search)) sessionStorage.setItem('mb-cards', '1');
+    if (/[?&]cards=off/.test(location.search)) sessionStorage.removeItem('mb-cards');
+    if (sessionStorage.getItem('mb-cards')) {
+      document.documentElement.classList.add('mb-cards');
+      var cardCss = document.createElement('link');
+      cardCss.rel = 'stylesheet';
+      cardCss.href = BASE + 'cards.css?v=1';
+      nativeAppend.call(document.head, cardCss);
+      /* Size without spaces, so long sizes stay on one line. */
+      var tightSizes = function () {
+        [].forEach.call(document.querySelectorAll('.t-catalog__card__descr:not([data-mb]),.t-store__card__descr:not([data-mb])'), function (d) {
+          d.setAttribute('data-mb', '1');
+          d.innerHTML = d.innerHTML.replace(/\s*[×x]\s*/g, '×');
+        });
+      };
+      new MutationObserver(tightSizes).observe(document.documentElement, { childList: true, subtree: true });
+    }
+  } catch (e) {}
+
   /* New reviews block in product cards. Set to false to return to the old widget. */
   var NEW_PRODUCT_BLOCK = true;
   if (/\/tproduct\//.test(location.pathname) && (NEW_PRODUCT_BLOCK || /[?&](rw=new|review=1)/.test(location.search))) {
