@@ -236,6 +236,23 @@
     'body .mb-rate .mb-rate-cnt,body .rw-inline-card .rw-cnt{font-size:11px}}';
   nativeAppend.call(document.head, starCss);
 
+  /* Header menu from the home page (there it sits in the page head) on all other pages. */
+  if (location.pathname !== '/') {
+    var menuCss = document.createElement('link');
+    menuCss.rel = 'stylesheet';
+    menuCss.href = BASE + 'menu.css?v=1';
+    nativeAppend.call(document.head, menuCss);
+    var watchMenu = function () {
+      var tip = document.querySelector('.t794__tooltip-menu');
+      if (!tip) return;
+      new MutationObserver(function () {
+        document.documentElement.classList.toggle('mb-sub', tip.classList.contains('t794__tooltip-menu_show'));
+      }).observe(tip, { attributes: true, attributeFilter: ['class'] });
+    };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', watchMenu);
+    else watchMenu();
+  }
+
   /* New reviews block in product cards. Set to false to return to the old widget. */
   var NEW_PRODUCT_BLOCK = true;
   if (/\/tproduct\//.test(location.pathname) && (NEW_PRODUCT_BLOCK || /[?&](rw=new|review=1)/.test(location.search))) {
