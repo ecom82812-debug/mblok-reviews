@@ -340,7 +340,7 @@
         var msg = sheet.querySelector('#rw-msg');
         if (msg && /Дякуємо/.test(msg.textContent) && !sheet.classList.contains('is-done')) doneForm();
       }).observe(old, { childList: true, characterData: true, subtree: true });
-      var head = sheet.querySelector('.rw-form-title'), title = document.querySelector('.js-store-prod-name');
+      var head = sheet.querySelector('.rw-form-title'), title = document.querySelector('.js-store-prod-name, .t-store__prod-popup__name, h1.t-catalog__prod-popup__name, h1[itemprop="name"], h1');
       if (head && title) head.insertAdjacentHTML('afterend', '<div class="mbr-f__prod">' + esc(title.textContent.trim()) + '</div>');
       sheet.addEventListener('click', function (e) {
         if (e.target === sheet || e.target.closest('.mbr-m__x') || e.target.closest('.mbr-f__ok')) closeForm();
