@@ -372,14 +372,41 @@
       note.textContent = 'Скопійовано';
       setTimeout(function () { note.textContent = ''; }, 1800);
     }
+    /* Older way of copying, for browsers that refuse the clipboard. */
+    function copyOld() {
+      var area = document.createElement('textarea'), ok = false;
+      area.value = url;
+      area.setAttribute('readonly', '');
+      area.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      sheet.appendChild(area);
+      area.select();
+      try { ok = document.execCommand('copy'); } catch (e) {}
+      area.remove();
+      return ok;
+    }
+    /* Nothing copied: put the link on screen, selected, ready for Cmd+C. */
+    function showLink() {
+      var field = sheet.querySelector('.mbr-f__link');
+      if (!field) {
+        field = document.createElement('input');
+        field.className = 'mbr-f__link';
+        field.readOnly = true;
+        field.setAttribute('aria-label', 'Посилання на відгук');
+        sheet.querySelector('.mbr-f__box').insertBefore(field, sheet.querySelector('.rw-widget'));
+      }
+      field.value = url;
+      field.focus();
+      field.select();
+    }
+    function fallback() { if (copyOld()) copied(); else showLink(); }
     /* Computers copy the link: their share menus are less handy than pasting it into a chat. */
     var touch = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
     if (touch && navigator.share) {
       navigator.share({ title: 'Залиште відгук про товар', url: url }).catch(function () {});
     } else if (navigator.clipboard) {
-      navigator.clipboard.writeText(url).then(copied, function () { window.prompt('Посилання на відгук', url); });
+      navigator.clipboard.writeText(url).then(copied, fallback);
     } else {
-      window.prompt('Посилання на відгук', url);
+      fallback();
     }
   }
 
