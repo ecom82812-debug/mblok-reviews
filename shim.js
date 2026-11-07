@@ -174,6 +174,11 @@
       var stamp = real.firestore.FieldValue.serverTimestamp();
       var copy = {};
       var contact = {};
+      /* The form looks for a title class this store template does not have. */
+      if ('productName' in doc && !doc.productName) {
+        var title = document.querySelector('h1');
+        doc.productName = title ? title.textContent.trim().slice(0, 200) : '';
+      }
       Object.keys(doc).forEach(function (k) {
         if (k === 'email' || k === 'phone') {
           if (doc[k]) contact[k] = doc[k];
