@@ -364,7 +364,7 @@
     openForm();
   }
 
-  /* The phone's share sheet with a link that opens this form; copies the link where there is none. */
+  /* A link that opens this form: the share sheet on phones, copied on computers. */
   function shareForm() {
     var url = location.origin + location.pathname + '?review=1';
     var note = sheet.querySelector('.mbr-f__share span');
@@ -372,7 +372,9 @@
       note.textContent = 'Скопійовано';
       setTimeout(function () { note.textContent = ''; }, 1800);
     }
-    if (navigator.share) {
+    /* Computers copy the link: their share menus are less handy than pasting it into a chat. */
+    var touch = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+    if (touch && navigator.share) {
       navigator.share({ title: 'Залиште відгук про товар', url: url }).catch(function () {});
     } else if (navigator.clipboard) {
       navigator.clipboard.writeText(url).then(copied, function () { window.prompt('Посилання на відгук', url); });
