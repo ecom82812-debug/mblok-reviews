@@ -1,0 +1,121 @@
+/* ---------- Панель ---------- */
+#rec1938494253 .t-menu-base,
+#rec1938494253 .tmenu-mobile,
+#rec1938494253 .t-menu-burger{transition:background-color .3s ease,box-shadow .3s ease}
+
+/* вгорі сторінки прозоро; наведення, фокус або відкрите меню дають суцільний фон */
+html.mb-top:not(.mb-sub) #rec1938494253 .t-menu-base:not(:hover):not(:focus-within){background-color:transparent!important}
+html.mb-top #rec1938494253 .tmenu-mobile:not(.tmenu-mobile_opened){background-color:transparent!important}
+
+/* стрілка «Категорії» */
+#rec1938494253 .t794__arrow{display:none!important}
+#rec1938494253 a.t794__tm-link:after{content:'';display:block;flex:none;width:7px;height:7px;margin:-3px 2px 0 0;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .2s ease}
+
+/* ---------- Десктоп ---------- */
+@media screen and (min-width:961px){
+  #rec1938494253 .t-menu-base{border-radius:12px}
+  #rec1938494253 a.t-menu__link-item{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:6px;font-size:13px;font-weight:600;letter-spacing:1.4px;transition:background-color .2s ease}
+  #rec1938494253 a.t-menu__link-item:hover,
+  html.mb-sub #rec1938494253 a.t794__tm-link{background-color:rgba(255,255,255,.16)}
+  #rec1938494253 .t-menu-base__list-item{padding:0 1px!important;margin:0!important}
+  html.mb-sub #rec1938494253 a.t794__tm-link:after{transform:translateY(3px) rotate(225deg)}
+
+  /* кнопка в шапці */
+  html #rec1938494253 .t-btnflex.t-btnflex_type_button{background-color:#0a0a0a;color:#fff;border:1px solid rgba(255,255,255,.22)!important;border-radius:6px;font-size:13px;letter-spacing:1.4px;transition:background-color .2s ease,color .2s ease,border-color .2s ease}
+  html #rec1938494253 .t-btnflex.t-btnflex_type_button:hover{background-color:#fff;color:#000;border-color:#fff!important}
+
+  /* каталог категорій: стилі для стандартного блока підменю */
+  .t794__tooltip-menu{left:10px!important;top:90px!important;width:calc(100vw - 20px)!important;max-width:none!important;padding:0!important;background:#0d0e10!important;border:1px solid rgba(255,255,255,.08)!important;border-radius:12px!important;box-shadow:0 30px 70px -20px rgba(0,0,0,.8)!important;box-sizing:border-box}
+  .t794__tooltip-menu:before{content:'';position:absolute;top:-16px;left:0;right:0;height:16px}
+  .t794__tooltip-menu-corner{display:none!important}
+  .t794__content{position:relative;background:none!important;border-radius:12px!important;padding:26px 36px 28px!important;max-height:calc(100vh - 110px);overflow-y:auto}
+  .t794__content:before{content:'КАТЕГОРІЇ';display:block;font-family:var(--t-text-font,Arial,sans-serif);margin-bottom:16px;color:#8d939c;font-size:13px;line-height:18px;font-weight:600;letter-spacing:1.4px}
+  .t794__list{display:block;columns:3;column-gap:48px;counter-reset:mbn;padding:0!important;margin:0!important;list-style:none}
+  .t794__list_item{padding:0!important;margin:0!important;border-top:1px solid rgba(255,255,255,.1);break-inside:avoid}
+  .t794__link{display:flex!important;align-items:center;gap:16px;height:74px;padding:0!important;color:#e9ebee!important;opacity:1!important;font-size:22px!important;line-height:1.2!important;font-weight:600!important;text-decoration:none;transition:padding-left .2s ease,color .2s ease}
+  .t794__list_item:not(:first-child) .t794__link:before{counter-increment:mbn;content:counter(mbn,decimal-leading-zero);flex:none;width:30px;color:#6c727b;font-size:12px;font-weight:600;transition:color .2s ease}
+  .t794__link:after{content:'';flex:none;margin-left:auto;width:18px;height:18px;background:#469bde;opacity:0;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='2'%3E%3Cpath d='M3 13 13 3M5 3h8v8'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='2'%3E%3Cpath d='M3 13 13 3M5 3h8v8'/%3E%3C/svg%3E") center/contain no-repeat;transition:opacity .2s ease}
+  .t794__list_item:not(:first-child) .t794__link:hover{padding-left:12px;color:#fff!important}
+  .t794__link:hover:before{color:#469bde!important}
+  .t794__link:hover:after,.t794__link:focus-visible:after{opacity:1}
+  .t794__link:focus-visible{outline:2px solid #469bde;outline-offset:2px}
+
+  /* «Усі товари» стоїть праворуч угорі панелі */
+  .t794__list_item:first-child{position:absolute;top:26px;right:36px;border:0}
+  .t794__list_item:first-child .t794__link{height:18px;gap:10px;color:#fff!important;font-size:13px!important;line-height:18px!important;letter-spacing:1.4px;text-transform:uppercase}
+  .t794__list_item:first-child .t794__link:after{width:13px;height:13px;margin:0;background:currentColor;opacity:1}
+}
+@media screen and (min-width:961px) and (max-width:1199px){
+  .t794__list{column-gap:32px}
+  .t794__link{height:62px;font-size:19px!important}
+  .t794__content{padding-left:24px!important;padding-right:24px!important}
+  .t794__list_item:first-child{right:24px}
+  #rec1938494253 .t-sociallinks{display:none}
+}
+
+/* шапка в один рядок на ноутбуках і планшетах */
+@media screen and (min-width:961px) and (max-width:1439px){
+  #rec1938494253 .t-menu-base__maincontainer{flex-wrap:nowrap;column-gap:24px}
+  #rec1938494253 .t-menu-base__list{flex-wrap:nowrap;column-gap:4px;min-width:0}
+  #rec1938494253 a.t-menu__link-item{padding:9px 10px;letter-spacing:1px;white-space:nowrap}
+  #rec1938494253 .t-menu-base__rightwrapper{flex:none}
+  #rec1938494253 .t-menu-base__additionalwrapper{flex-wrap:nowrap;column-gap:20px}
+  html #rec1938494253 .t-btnflex.t-btnflex_type_button{padding-left:18px;padding-right:18px;letter-spacing:1px;white-space:nowrap}
+}
+@media screen and (min-width:961px) and (max-width:1099px){
+  .t794__list{columns:2}
+  #rec1938494253 a.t-menu__link-item{padding:8px 7px;font-size:12px;letter-spacing:.6px}
+  #rec1938494253 .t-menu-base__maincontainer{column-gap:16px}
+  html #rec1938494253 .t-btnflex.t-btnflex_type_button{padding-left:14px;padding-right:14px;font-size:12px;letter-spacing:.6px}
+}
+@media screen and (min-width:961px) and (max-width:1023px){
+  #rec1938494253 a.t-menu__link-item{padding:8px 5px;letter-spacing:.3px}
+  #rec1938494253 .t-menu-base__list{column-gap:0}
+  #rec1938494253 .t-menu-base__logowrapper img{width:96px!important;height:auto!important}
+}
+
+/* ---------- Мобільний ---------- */
+@media screen and (max-width:960px){
+  /* висота шапки 64 px, кнопка меню 44 px */
+  #rec1938494253 .tmenu-mobile__container{padding-top:10px;padding-bottom:10px}
+  #rec1938494253 .t-menu-burger{width:44px!important;height:44px!important;border-radius:10px}
+  #rec1938494253 .t-menu-burger__icon{transform:scale(1.25)}
+  html.mb-top #rec1938494253 .tmenu-mobile:not(.tmenu-mobile_opened) .t-menu-burger{
+    background-color:rgba(0,0,0,.32)!important;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.35);
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)
+  }
+  #rec1938494253 .tmenu-mobile .t-menuwidgeticons__link_cart{padding:12px;margin:-12px}
+  #rec1938494253 .tmenu-mobile .t-menuwidgeticons__wrapper{margin-right:12px}
+
+  /* меню на весь екран */
+  #rec1938494253 .t-menu-base.t-menu-base__burgermenu_opened{height:calc(100vh - 64px);height:calc(100dvh - 64px);max-height:none!important;overflow-y:auto!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch}
+  #rec1938494253 .t-menu-base__list{width:100%}
+  #rec1938494253 .t-menu-base__list-item{display:block;width:100%;padding:0!important;margin:0!important;border-bottom:1px solid rgba(255,255,255,.12)}
+  #rec1938494253 .t-menu__link-wrapper{display:block!important;width:100%}
+  #rec1938494253 a.t-menu__link-item{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:54px;padding:0;box-sizing:border-box;font-size:15px;letter-spacing:1.4px}
+  #rec1938494253 .t-menu__link-wrapper:has(.t794__tooltip-menu_show) a.t794__tm-link:after{transform:translateY(3px) rotate(225deg)}
+
+  /* категорії: нумерований список */
+  #rec1938494253 .t794__tooltip-menu{width:100%!important;max-width:none!important;height:auto!important;overflow:visible!important;background:none!important;box-shadow:none!important;border:0!important;padding:0!important;margin:0!important}
+  #rec1938494253 .t794__tooltip-menu-corner{display:none!important}
+  #rec1938494253 .t794__content{background:none!important;box-shadow:none!important;max-height:none!important;overflow:visible!important;padding:0!important}
+  #rec1938494253 .t794__list{display:block;counter-reset:mbn;padding:0!important;margin:0!important;max-height:none!important;overflow:visible!important;list-style:none}
+  #rec1938494253 .t794__list_item{padding:0!important;margin:0!important;border-top:1px solid rgba(255,255,255,.08)}
+  #rec1938494253 .t794__link{display:flex!important;align-items:center;gap:14px;min-height:50px;padding:0!important;color:#fff!important;opacity:1!important;font-size:18px!important;line-height:1.2!important;font-weight:600!important;text-decoration:none;-webkit-tap-highlight-color:transparent}
+  #rec1938494253 .t794__link:active{background:rgba(255,255,255,.08)}
+  #rec1938494253 .t794__link:before{content:'';flex:none;width:22px;color:#6c727b;font-size:11px;font-weight:600}
+  #rec1938494253 .t794__list_item:not(:first-child) .t794__link:before{counter-increment:mbn;content:counter(mbn,decimal-leading-zero)}
+  #rec1938494253 .t794__link:active:before{color:#469bde}
+  #rec1938494253 .t794__link:after{content:'';flex:none;margin-left:auto;width:15px;height:15px;background:#6c727b;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='2'%3E%3Cpath d='M3 13 13 3M5 3h8v8'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='2'%3E%3Cpath d='M3 13 13 3M5 3h8v8'/%3E%3C/svg%3E") center/contain no-repeat}
+  #rec1938494253 .t794__list_item:first-child .t794__link{color:#469bde!important}
+  #rec1938494253 .t794__list_item:first-child .t794__link:after{background:#469bde}
+
+  /* кнопка в меню */
+  html #rec1938494253 .t-btnflex.t-btnflex_type_button{width:100%;background-color:transparent;color:#fff;border:1px solid rgba(255,255,255,.3)!important;border-radius:6px;letter-spacing:1.4px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  #rec1938494253 .t-menu-base,#rec1938494253 .tmenu-mobile,#rec1938494253 .t-menu-burger,
+  .t794__link,.t794__link:before,.t794__link:after,#rec1938494253 a.t794__tm-link:after{transition:none}
+}
