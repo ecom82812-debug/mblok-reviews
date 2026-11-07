@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   var BASE = 'https://ecom82812-debug.github.io/mblok-reviews/';
-  var V = '9';
+  var V = '10';
   var tries = 0;
   function mount(old) {
     var pid = old.id.replace('rw-widget-', '');

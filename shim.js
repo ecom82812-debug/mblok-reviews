@@ -219,7 +219,7 @@
   /* New reviews block in product cards. Only with ?rw=new or ?review=1 until it is approved. */
   if (/\/tproduct\//.test(location.pathname) && /[?&](rw=new|review=1)/.test(location.search)) {
     var product = document.createElement('script');
-    product.src = BASE + 'product.js?v=6';
+    product.src = BASE + 'product.js?v=7';
     product.async = true;
     nativeAppend.call(document.head, product);
   }

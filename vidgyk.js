@@ -330,7 +330,7 @@
       sheet.setAttribute('aria-modal', 'true');
       sheet.setAttribute('aria-label', 'Написати відгук');
       sheet.innerHTML = '<div class="mbr-f__box"><button type="button" class="mbr-m__x" aria-label="Закрити">' + ARROW('M6 6l12 12M18 6L6 18') + '</button>' +
-        '<button type="button" class="mbr-f__share" aria-label="Поділитися посиланням на відгук">' + ARROW('M12 15V4M8 7.5L12 3.5l4 4M7 11H5v10h14V11h-2') + '<span role="status"></span></button></div>';
+        '<button type="button" class="mbr-f__lnk" title="Посилання на цю форму" aria-label="Посилання на цю форму">' + ARROW('M12 15V4M8 7.5L12 3.5l4 4M7 11H5v10h14V11h-2') + '<span role="status"></span></button></div>';
       document.body.appendChild(sheet);
       sheet.querySelector('.mbr-f__box').appendChild(old);
       sheet.querySelector('.mbr-f__box').insertAdjacentHTML('beforeend', '<div class="mbr-f__done" role="status"><span class="mbr-f__tick" aria-hidden="true">' +
@@ -345,7 +345,7 @@
       if (head && title) head.insertAdjacentHTML('afterend', '<div class="mbr-f__prod">' + esc(title.textContent.trim()) + '</div>');
       sheet.addEventListener('click', function (e) {
         if (e.target === sheet || e.target.closest('.mbr-m__x') || e.target.closest('.mbr-f__ok')) closeForm();
-        if (e.target.closest('.mbr-f__share')) shareForm();
+        if (e.target.closest('.mbr-f__lnk')) shareForm();
       });
     }
     sheet.classList.add('is-open');
@@ -367,7 +367,7 @@
   /* A link that opens this form: the share sheet on phones, copied on computers. */
   function shareForm() {
     var url = location.origin + location.pathname + '?review=1';
-    var note = sheet.querySelector('.mbr-f__share span');
+    var note = sheet.querySelector('.mbr-f__lnk span');
     function copied() {
       note.textContent = 'Скопійовано';
       setTimeout(function () { note.textContent = ''; }, 1800);
