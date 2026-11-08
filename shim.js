@@ -305,6 +305,20 @@
     }
   } catch (e) {}
 
+  /* "Ви переглядали" in the card look. Preview only: ?rv=new turns it on for the visit, ?rv=off ends it. */
+  var NEW_RV = false;
+  try {
+    if (/[?&]rv=new/.test(location.search)) sessionStorage.setItem('mb-rv', '1');
+    if (/[?&]rv=off/.test(location.search)) sessionStorage.removeItem('mb-rv');
+    if (NEW_RV || sessionStorage.getItem('mb-rv')) {
+      document.documentElement.classList.add('mb-rv');
+      var rvCss = document.createElement('link');
+      rvCss.rel = 'stylesheet';
+      rvCss.href = BASE + 'rv.css?v=1';
+      nativeAppend.call(document.head, rvCss);
+    }
+  } catch (e) {}
+
   /* New reviews block in product cards. Set to false to return to the old widget. */
   var NEW_PRODUCT_BLOCK = true;
   if (/\/tproduct\//.test(location.pathname) && (NEW_PRODUCT_BLOCK || /[?&](rw=new|review=1)/.test(location.search))) {

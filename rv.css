@@ -1,0 +1,59 @@
+/* "Ви переглядали" (footer of product pages) in the look of the main product cards.
+   Active with html.mb-rv, set by shim.js. No buttons: the whole card opens the product. */
+html.mb-rv .rv-section{margin:48px 0 0;padding:0 0 44px;font-family:Montserrat,Arial,sans-serif}
+html.mb-rv .rv-inner{max-width:1440px;margin:0 auto;padding:0 32px;container-type:inline-size}
+html.mb-rv .rv-top{margin-bottom:14px}
+html.mb-rv .rv-title{font-size:22px;line-height:1.2;font-weight:800;letter-spacing:.01em;color:#111}
+
+/* Arrows: round white buttons like the review window */
+html.mb-rv .rv-arrows{gap:10px}
+html.mb-rv .rv-arrow{width:44px;height:44px;border-radius:50%;background:#fff;box-shadow:0 4px 14px rgba(17,17,17,.12);transition:background-color .16s ease,opacity .2s ease,transform .12s ease}
+html.mb-rv .rv-arrow span{width:10px;height:10px;border-width:2px 2px 0 0;border-color:#111;border-style:solid}
+html.mb-rv .rv-arrow-left span{margin-left:4px}
+html.mb-rv .rv-arrow-right span{margin-right:4px}
+html.mb-rv .rv-arrow:hover{transform:none}
+html.mb-rv .rv-arrow:active{transform:scale(.94)}
+@media (hover:hover){
+html.mb-rv .rv-arrow:hover{background:#111}
+html.mb-rv .rv-arrow:hover span{border-color:#fff}}
+html.mb-rv .rv-arrow.is-disabled{opacity:.35;box-shadow:none;background:#f1f1f1}
+
+/* Room for the card shadow inside the scrolling strip */
+html.mb-rv .rv-slider{margin:0 -32px;padding:10px 32px 26px;scroll-padding:0 32px;scroll-snap-type:x mandatory}
+html.mb-rv .rv-slider.is-dragging{scroll-snap-type:none}
+html.mb-rv .rv-track{gap:20px}
+
+/* Card: same frame as the catalog */
+html.mb-rv .rv-card{display:flex;flex-direction:column;width:calc((min(100vw,1440px) - 64px - 80px) / 5);width:calc((100cqw - 80px) / 5);min-width:0;max-width:none;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 8px 22px rgba(17,17,17,.1);scroll-snap-align:start;transition:transform .2s ease,box-shadow .2s ease}
+@media (hover:hover){
+html.mb-rv .rv-card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(17,17,17,.14)}
+html.mb-rv .rv-card:hover .rv-card__img{transform:none}}
+html.mb-rv .rv-card__imgwrap{margin:0;background:#f3f3f3;border-radius:0}
+html.mb-rv .rv-card__title{margin:0;padding:14px 14px 0;font-size:15px;line-height:1.3;font-weight:600;color:#111;min-height:calc(15px * 1.3 * 2 + 14px)}
+html.mb-rv .rv-card .mb-rate,html.mb-rv .rv-card .rw-inline-card{margin:6px 14px 0!important;padding:0!important}
+html.mb-rv .rv-card__prices{margin-top:auto;padding:10px 14px 14px;display:flex;flex-direction:column-reverse;align-items:flex-start;gap:1px}
+html.mb-rv .rv-card__price{font-size:20px;line-height:1.2;font-weight:700;color:#111;white-space:nowrap}
+html.mb-rv .rv-card__oldprice{font-size:13px;line-height:1.25;font-weight:400;color:#8a8a8e;white-space:nowrap}
+
+/* Tablet: 3 and a bit */
+@media (max-width:1100px){
+html.mb-rv .rv-inner{padding:0 24px}
+html.mb-rv .rv-slider{margin:0 -24px;padding:10px 24px 24px;scroll-padding:0 24px}
+html.mb-rv .rv-track{gap:16px}
+html.mb-rv .rv-card{width:calc((100vw - 48px - 48px) / 3.3);width:calc((100cqw - 48px) / 3.3)}}
+
+/* Phone: 2 cards and the edge of a third, so it is clear the strip scrolls. Swipe, no arrows. */
+@media (max-width:640px){
+html.mb-rv .rv-section{margin:32px 0 0;padding-bottom:28px}
+html.mb-rv .rv-inner{padding:0 16px}
+html.mb-rv .rv-top{margin-bottom:6px}
+html.mb-rv .rv-title{font-size:18px}
+html.mb-rv .rv-arrows{display:none}
+html.mb-rv .rv-slider{margin:0 -16px;padding:10px 16px 22px;scroll-padding:0 16px;cursor:auto}
+html.mb-rv .rv-track{gap:10px}
+html.mb-rv .rv-card{width:calc((100vw - 32px - 10px) / 2.25);width:calc((100cqw - 10px) / 2.25)}
+html.mb-rv .rv-card__title{padding:10px 10px 0;font-size:13px;min-height:calc(13px * 1.3 * 2 + 10px)}
+html.mb-rv .rv-card .mb-rate,html.mb-rv .rv-card .rw-inline-card{margin:5px 10px 0!important}
+html.mb-rv .rv-card__prices{padding:8px 10px 10px}
+html.mb-rv .rv-card__price{font-size:17px}
+html.mb-rv .rv-card__oldprice{font-size:12px}}
