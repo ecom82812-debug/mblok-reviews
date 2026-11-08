@@ -70,6 +70,8 @@
     var byUrl = {};
     read().forEach(function (it) { if (it && it.url) byUrl[clean(it.url)] = it; });
     [].forEach.call(cards, function (c) {
+      /* The product open right now is not "viewed before" (the footer script misses it when the link has ?utm=...) */
+      if (clean(c.getAttribute('href')) === here) { c.style.display = 'none'; return; }
       var it = byUrl[clean(c.getAttribute('href'))] || {};
       var box = c.querySelector('.rv-card__prices');
       if (box && !box.getAttribute('data-mb')) {

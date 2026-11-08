@@ -314,14 +314,14 @@
       document.documentElement.classList.add('mb-rv');
       var rvCss = document.createElement('link');
       rvCss.rel = 'stylesheet';
-      rvCss.href = BASE + 'rv.css?v=3';
+      rvCss.href = BASE + 'rv.css?v=4';
       nativeAppend.call(document.head, rvCss);
     }
   } catch (e) {}
   /* Saves real prices of the open product for "Ви переглядали"; with mb-rv also adds stars there. */
   if (/\/tproduct\//.test(location.pathname)) {
     var rvJs = document.createElement('script');
-    rvJs.src = BASE + 'rv.js?v=2';
+    rvJs.src = BASE + 'rv.js?v=3';
     rvJs.async = true;
     nativeAppend.call(document.head, rvJs);
   }
