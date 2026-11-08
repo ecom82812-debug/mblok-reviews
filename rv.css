@@ -30,7 +30,9 @@ html.mb-rv .rv-card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba
 html.mb-rv .rv-card:hover .rv-card__img{transform:none}}
 html.mb-rv .rv-card__imgwrap{margin:0;background:#f3f3f3;border-radius:0}
 html.mb-rv .rv-card__title{margin:14px 14px 0;padding:0;font-size:15px;line-height:1.3;font-weight:600;color:#111;height:2.6em;min-height:0}
-html.mb-rv .rv-card .mb-rate,html.mb-rv .rv-card .rw-inline-card{margin:6px 14px 0!important;padding:0!important}
+/* Stars come from rv.js (same data as the catalog); the older script's copy is hidden */
+html.mb-rv .rv-card .rw-inline-card{display:none!important}
+html.mb-rv .rv-card .mb-rate{margin:6px 14px 0!important;padding:0!important}
 html.mb-rv .rv-card__prices{margin-top:auto;padding:10px 14px 14px;display:flex;flex-direction:column-reverse;align-items:flex-start;gap:1px}
 html.mb-rv .rv-card__price{font-size:20px;line-height:1.2;font-weight:700;color:#111;white-space:nowrap}
 html.mb-rv .rv-card__oldprice{font-size:13px;line-height:1.25;font-weight:400;color:#8a8a8e;white-space:nowrap}
@@ -53,7 +55,7 @@ html.mb-rv .rv-slider{margin:0 -16px;padding:10px 16px 22px;scroll-padding:0 16p
 html.mb-rv .rv-track{gap:10px}
 html.mb-rv .rv-card{width:calc((100vw - 32px - 10px) / 2.25);width:calc((100cqw - 10px) / 2.25)}
 html.mb-rv .rv-card__title{margin:10px 10px 0;font-size:13px}
-html.mb-rv .rv-card .mb-rate,html.mb-rv .rv-card .rw-inline-card{margin:5px 10px 0!important}
+html.mb-rv .rv-card .mb-rate{margin:5px 10px 0!important}
 html.mb-rv .rv-card__prices{padding:8px 10px 10px}
 html.mb-rv .rv-card__price{font-size:17px}
 html.mb-rv .rv-card__oldprice{font-size:12px}}
