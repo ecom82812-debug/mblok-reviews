@@ -13,11 +13,22 @@
     t.textContent = open ? 'Згорнути' : 'Показати більше';
   });
   m.addEventListener('transitionend', function () { if (r.classList.contains('open')) m.style.maxHeight = 'none'; });
-  if (!('IntersectionObserver' in window)) { r.classList.add('go'); return; }
-  var io = new IntersectionObserver(function (es) {
-    if (!es[0].isIntersecting) return;
-    io.disconnect();
-    r.classList.add('go');
-  }, { threshold: .2 });
-  io.observe(r);
+  // While the catalog is still loading the page is short and this block sits on screen,
+  // so it flashed and played its animation first. Keep it hidden until products appear.
+  r.style.visibility = 'hidden';
+  var start = Date.now();
+  (function wait() {
+    var ready = document.querySelector('.t-catalog__card, .t-store__card') || !document.querySelector('.t-catalog, .t-store');
+    if (!ready && Date.now() - start < 6000) return setTimeout(wait, 150);
+    setTimeout(function () {
+      r.style.visibility = '';
+      if (!('IntersectionObserver' in window)) { r.classList.add('go'); return; }
+      var io = new IntersectionObserver(function (es) {
+        if (!es[0].isIntersecting) return;
+        io.disconnect();
+        r.classList.add('go');
+      }, { threshold: .2 });
+      io.observe(r);
+    }, 300);
+  })();
 })();
