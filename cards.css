@@ -17,10 +17,10 @@ html.mb-cards-home .t-store__card__textwrapper{flex:1;display:flex!important;fle
 html.mb-cards .t-catalog__card__title,
 html.mb-cards-home .t-store__card__title{order:1;margin:0!important;padding:0!important;font-size:13px!important;line-height:1.3!important;font-weight:600!important;color:#111!important;display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;height:auto!important}
 html.mb-cards .t-catalog__card__descr,
-html.mb-cards-home .t-store__card__descr{order:2;margin:5px 0 0!important;padding:0!important;font-size:11px!important;line-height:1.45!important;font-weight:500!important;color:#555!important;white-space:nowrap;overflow:hidden}
+html.mb-cards-home .t-store__card__descr{order:3;margin:5px 0 0!important;padding:0!important;font-size:11px!important;line-height:1.45!important;font-weight:500!important;color:#555!important;white-space:nowrap;overflow:hidden}
 html.mb-cards .t-catalog__card__descr strong,
 html.mb-cards-home .t-store__card__descr strong{font-weight:500!important;color:inherit!important}
-html.mb-cards .mb-rate{order:3;margin:4px 0 0!important;min-height:16px}
+html.mb-cards .mb-rate{order:2;margin:5px 0 0!important;min-height:16px}
 html.mb-cards .t-catalog__card__price-wrapper,
 html.mb-cards-home .t-store__card__price-wrapper{order:4;margin:auto 0 0!important;padding:6px 52px 0 0!important;width:auto!important;min-height:52px;display:flex!important;flex-direction:column-reverse;justify-content:flex-start;align-items:flex-start;gap:0}
 html.mb-cards .t-catalog__card__price-wrapper *,

@@ -265,7 +265,7 @@
       document.documentElement.classList.add('mb-cards-home');
       var cardCss = document.createElement('link');
       cardCss.rel = 'stylesheet';
-      cardCss.href = BASE + 'cards.css?v=14';
+      cardCss.href = BASE + 'cards.css?v=15';
       nativeAppend.call(document.head, cardCss);
       /* Size without spaces, so long sizes stay on one line. */
       var tightSizes = function () {
@@ -306,7 +306,7 @@
   } catch (e) {}
 
   /* "Ви переглядали" in the card look. Preview only: ?rv=new turns it on for the visit, ?rv=off ends it. */
-  var NEW_RV = false;
+  var NEW_RV = true;
   try {
     if (/[?&]rv=new/.test(location.search)) sessionStorage.setItem('mb-rv', '1');
     if (/[?&]rv=off/.test(location.search)) sessionStorage.removeItem('mb-rv');
