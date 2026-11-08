@@ -82,3 +82,10 @@ html.mb-cards-home .t-store__card__title{display:block!important;-webkit-line-cl
 
 /* Home page: two buttons in the block, «Про товар» stays hidden, the last one is the cart */
 html.mb-cards-home .t-store__card__btns-wrapper a:not(:last-of-type){display:none!important}
+
+/* Bigger prices (2026-11-08): new price stands out next to the cart button. */
+html.mb-cards .t-catalog__card__price,html.mb-cards-home .t-store__card__price{font-size:18px!important;font-weight:800!important;letter-spacing:-.2px}
+html.mb-cards .t-catalog__card__price_old,html.mb-cards-home .t-store__card__price_old{font-size:12px!important}
+@media (min-width:641px){
+html.mb-cards .t-catalog__card__price,html.mb-cards-home .t-store__card__price{font-size:22px!important}
+html.mb-cards .t-catalog__card__price_old,html.mb-cards-home .t-store__card__price_old{font-size:13px!important}}
