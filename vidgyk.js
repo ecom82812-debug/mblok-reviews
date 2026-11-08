@@ -181,6 +181,7 @@
   function build() {
     box = document.createElement('div');
     box.id = 'mbr-m';
+    if (pid) box.className = 'is-p';
     box.setAttribute('role', 'dialog');
     box.setAttribute('aria-modal', 'true');
     box.setAttribute('aria-label', 'Відгук покупця');
@@ -253,7 +254,8 @@
       (r.text ? '<p class="mbr-m__text">' + esc(r.text) + '</p>' : '') +
       (r.reply ? '<div class="mbr-m__reply"><b>Відповідь mBlok</b>' + esc(r.reply) + '</div>' : '');
     box.querySelector('.mbr-m__sc').scrollTop = 0;
-    box.querySelector('.mbr-m__foot').innerHTML =
+    /* On a product page the window shows only this one review: no moving to other reviews. */
+    box.querySelector('.mbr-m__foot').innerHTML = pid ? '' :
       (!pid && r.productName && r.productUrl ? '<span class="mbr-m__prod">' + esc(r.productName) + '</span>' : '') +
       (!pid && r.productUrl ? '<a class="mbr-m__go" href="' + esc(r.productUrl) + '"><span class="mbr-m__gl">Перейти до товару</span><span class="mbr-m__gs">До товару</span><span aria-hidden="true">→</span></a>' : '') +
       '<button type="button" class="mbr-m__pv" data-go="-1" aria-label="Попередній відгук"' + (cur ? '' : ' disabled') + '><span aria-hidden="true">←</span><span class="mbr-m__gl"> Попередній</span></button>' +
@@ -308,8 +310,8 @@
   document.addEventListener('keydown', function (e) {
     if (!box || !box.classList.contains('is-open')) return;
     if (e.key === 'Escape') close();
-    if (e.key === 'ArrowRight') go(1);
-    if (e.key === 'ArrowLeft') go(-1);
+    if (e.key === 'ArrowRight') pid ? move(1) : go(1);
+    if (e.key === 'ArrowLeft') pid ? move(-1) : go(-1);
     if (e.key === 'Tab') {
       var f = [].filter.call(box.querySelectorAll('a[href],button:not([disabled])'), function (x) { return x.offsetParent; });
       var a = f[0], z = f[f.length - 1];
