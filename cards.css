@@ -89,3 +89,7 @@ html.mb-cards .t-catalog__card__price_old,html.mb-cards-home .t-store__card__pri
 @media (min-width:641px){
 html.mb-cards .t-catalog__card__price,html.mb-cards-home .t-store__card__price{font-size:22px!important}
 html.mb-cards .t-catalog__card__price_old,html.mb-cards-home .t-store__card__price_old{font-size:13px!important}}
+
+/* Trial on /supercars only (variant 2): softer price, same cart button. */
+html.mb-cards #allrecords[data-tilda-page-id="193254103"] .t-catalog__card__price{font-size:17px!important;font-weight:700!important;letter-spacing:0}
+@media (min-width:641px){html.mb-cards #allrecords[data-tilda-page-id="193254103"] .t-catalog__card__price{font-size:20px!important}}
