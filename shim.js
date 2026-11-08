@@ -321,7 +321,7 @@
   /* Saves real prices of the open product for "Ви переглядали"; with mb-rv also adds stars there. */
   if (/\/tproduct\//.test(location.pathname)) {
     var rvJs = document.createElement('script');
-    rvJs.src = BASE + 'rv.js?v=3';
+    rvJs.src = BASE + 'rv.js?v=4';
     rvJs.async = true;
     nativeAppend.call(document.head, rvJs);
   }

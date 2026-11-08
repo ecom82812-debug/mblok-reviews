@@ -93,6 +93,8 @@
         t.parentNode.insertBefore(el, t.nextSibling);
       }
     });
+    var left = [].some.call(cards, function (c) { return c.style.display !== 'none'; });
+    if (!left) document.getElementById('rv-section').style.display = 'none';
   }
   (function wait(n) {
     if (document.querySelector('#rv-section .rv-card')) return paint();
