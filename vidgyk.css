@@ -64,7 +64,7 @@
 @keyframes mbr-spin{to{transform:rotate(360deg)}}
 
 #mbr-m{--blue:#469bde;position:fixed;inset:0;z-index:2147483000;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(10,10,12,.82);font-family:Montserrat,Arial,sans-serif;color:#111;-webkit-font-smoothing:antialiased}
-#mbr-m.is-open{display:flex;animation:mbr-fade .18s ease both}
+#mbr-m.is-open{display:flex;overscroll-behavior:contain;animation:mbr-fade .18s ease both}
 @keyframes mbr-fade{from{opacity:0}}
 .mbr-m__box{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 380px;width:min(1120px,100%);height:min(720px,100%);background:#fff;overflow:hidden;animation:mbr-pop .22s cubic-bezier(.16,1,.3,1) both}
 @keyframes mbr-pop{from{transform:scale(.97)}}
@@ -92,7 +92,7 @@
 .mbr-m__thumbs button:hover{opacity:1}
 .mbr-m__thumbs img{display:block;width:100%;height:100%;object-fit:cover}
 .mbr-m__info{display:flex;flex-direction:column;min-height:0;min-width:0}
-.mbr-m__sc{flex:1;min-height:0;overflow-y:auto;padding:28px 56px 20px 24px;-webkit-overflow-scrolling:touch}
+.mbr-m__sc{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:28px 56px 20px 24px;-webkit-overflow-scrolling:touch}
 .mbr-m__name{display:flex;align-items:center;gap:6px;font-size:17px;font-weight:700;overflow-wrap:anywhere}
 .mbr-m__name svg{flex:none;color:var(--blue)}
 .mbr-m__meta{display:flex;align-items:center;gap:10px;margin-top:8px}

@@ -290,17 +290,35 @@
     }
     back = document.activeElement;
     cur = i; pic = Math.min(startPic || 0, Math.max(photos(view[i]).length - 1, 0));
-    if (!box.classList.contains('is-open')) { history.pushState({ mbr: 1 }, ''); pushed = true; }
+    if (!box.classList.contains('is-open')) { history.pushState({ mbr: 1 }, ''); pushed = true; lock(); }
     box.classList.add('is-open');
-    document.documentElement.style.overflow = 'hidden';
     paint();
     box.querySelector('.mbr-m__x').focus();
   }
   function hide() {
     if (!box || !box.classList.contains('is-open')) return;
     box.classList.remove('is-open');
-    document.documentElement.style.overflow = '';
+    unlock();
     if (back && back.focus) back.focus({ preventScroll: true });
+  }
+  /* iPhone ignores overflow:hidden, so scrolling the open review moved the page behind it.
+     Pin the page where it was and put it back exactly there on close. */
+  var lockY = 0, locked = false;
+  function lock() {
+    if (locked) return;
+    locked = true; lockY = window.pageYOffset || 0;
+    var b = document.body.style;
+    document.documentElement.style.overflow = 'hidden';
+    b.position = 'fixed'; b.top = -lockY + 'px'; b.left = '0'; b.right = '0'; b.width = '100%';
+  }
+  function unlock() {
+    if (!locked) return;
+    locked = false;
+    var b = document.body.style, h = document.documentElement.style, sb = h.scrollBehavior;
+    h.overflow = ''; b.position = ''; b.top = ''; b.left = ''; b.right = ''; b.width = '';
+    h.scrollBehavior = 'auto';
+    window.scrollTo(0, lockY);
+    setTimeout(function () { if (Math.abs((window.pageYOffset || 0) - lockY) > 2) window.scrollTo(0, lockY); h.scrollBehavior = sb; }, 60);
   }
   function close() {
     if (pushed) { pushed = false; history.back(); }
