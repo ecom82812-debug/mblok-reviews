@@ -309,7 +309,7 @@
   var NEW_PRODUCT_BLOCK = true;
   if (/\/tproduct\//.test(location.pathname) && (NEW_PRODUCT_BLOCK || /[?&](rw=new|review=1)/.test(location.search))) {
     var product = document.createElement('script');
-    product.src = BASE + 'product.js?v=11';
+    product.src = BASE + 'product.js?v=12';
     product.async = true;
     nativeAppend.call(document.head, product);
   }

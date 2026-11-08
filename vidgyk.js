@@ -319,7 +319,25 @@
     h.scrollBehavior = 'auto';
     window.scrollTo(0, lockY);
     setTimeout(function () { if (Math.abs((window.pageYOffset || 0) - lockY) > 2) window.scrollTo(0, lockY); h.scrollBehavior = sb; }, 60);
+    /* iPhone Safari jumps the page down on its own ~0.3 s after closing (history restore).
+       For a short while, any scroll the visitor did not make is put back. */
+    guardUntil = Date.now() + 1500;
   }
+  var guardUntil = 0, touching = false;
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  function userMoved() { guardUntil = 0; }
+  window.addEventListener('touchstart', function () { touching = true; }, { passive: true });
+  window.addEventListener('touchend', function () { touching = false; }, { passive: true });
+  window.addEventListener('touchmove', function () { if (!locked) userMoved(); }, { passive: true });
+  window.addEventListener('wheel', function () { if (!locked) userMoved(); }, { passive: true });
+  window.addEventListener('keydown', function () { if (!locked) userMoved(); });
+  window.addEventListener('scroll', function () {
+    if (locked || touching || Date.now() > guardUntil) return;
+    if (Math.abs((window.pageYOffset || 0) - lockY) > 2) {
+      var h = document.documentElement.style, sb = h.scrollBehavior;
+      h.scrollBehavior = 'auto'; window.scrollTo(0, lockY); h.scrollBehavior = sb;
+    }
+  }, { passive: true });
   function close() {
     if (pushed) { pushed = false; history.back(); }
     else { hide(); history.replaceState(history.state, '', location.pathname + location.search); }
