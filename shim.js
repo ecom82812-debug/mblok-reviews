@@ -314,7 +314,7 @@
       document.documentElement.classList.add('mb-rv');
       var rvCss = document.createElement('link');
       rvCss.rel = 'stylesheet';
-      rvCss.href = BASE + 'rv.css?v=1';
+      rvCss.href = BASE + 'rv.css?v=2';
       nativeAppend.call(document.head, rvCss);
     }
   } catch (e) {}
