@@ -18,7 +18,7 @@
   function shown(el) { return el && el.offsetParent !== null && el.textContent.trim(); }
 
   /* 1. Save this product's real prices */
-  var here = clean(location.href), tries = 0;
+  var here = clean(location.href), tries = 0, again = [800, 2000, 4000];
   (function save() {
     var p = document.querySelector('.js-catalog-prod-price-val, .js-store-prod-price-val, .t-store__prod-popup__price-value');
     if (!shown(p)) { if (++tries < 40) setTimeout(save, 250); return; }
@@ -36,6 +36,8 @@
     hit.oldPrice = old > price ? String(old) : '';
     items.unshift(hit);
     try { localStorage.setItem(KEY, JSON.stringify(items)); } catch (e) {}
+    /* Tilda fills the old price a moment after the price: read again a few times. */
+    if (again.length) setTimeout(save, again.shift());
   })();
 
   /* 2. Strip look: prices and stars */
