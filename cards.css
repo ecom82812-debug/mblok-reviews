@@ -89,3 +89,8 @@ html.mb-cards .t-catalog__card__price_old,html.mb-cards-home .t-store__card__pri
 @media (min-width:641px){
 html.mb-cards .t-catalog__card__price,html.mb-cards-home .t-store__card__price{font-size:20px!important}
 html.mb-cards .t-catalog__card__price_old,html.mb-cards-home .t-store__card__price_old{font-size:13px!important}}
+/* Trial 2026-11-09, supercars only: more air between cards on phones (16 px rows, 10 px columns, 12 px from the screen edge). */
+@media (max-width:640px){
+html.mb-cards #allrecords[data-tilda-page-id="193254103"] .t-catalog__grid-cont.js-catalog-cont-w-filter{padding-left:12px!important;padding-right:12px!important}
+html.mb-cards #allrecords[data-tilda-page-id="193254103"] .t-catalog__card-list{row-gap:16px!important;column-gap:10px!important}
+html.mb-cards #allrecords[data-tilda-page-id="193254103"] .t-catalog__card-list>.t-catalog__card{flex:0 0 calc(50% - 5px)!important;max-width:calc(50% - 5px)!important}}
