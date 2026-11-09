@@ -89,8 +89,22 @@ html.mb-cards .t-catalog__card__price_old,html.mb-cards-home .t-store__card__pri
 @media (min-width:641px){
 html.mb-cards .t-catalog__card__price,html.mb-cards-home .t-store__card__price{font-size:20px!important}
 html.mb-cards .t-catalog__card__price_old,html.mb-cards-home .t-store__card__price_old{font-size:13px!important}}
-/* Trial 2026-11-09, supercars only: more air between cards on phones (16 px rows, 10 px columns, 12 px from the screen edge). */
+/* Catalog grid spacing on every screen (2026-11-09). Phone: 2 cards, 16/10 px, 12 px from the edge.
+   Tablet upright: 3 cards. Desktop: 20/24 px, 4 cards from 1600 px. */
+html.mb-cards .t-catalog__card-list>.t-catalog__card{min-width:0!important}
 @media (max-width:640px){
-html.mb-cards #allrecords[data-tilda-page-id="193254103"] .t-catalog__grid-cont.js-catalog-cont-w-filter{padding-left:12px!important;padding-right:12px!important}
-html.mb-cards #allrecords[data-tilda-page-id="193254103"] .t-catalog__card-list{row-gap:16px!important;column-gap:10px!important}
-html.mb-cards #allrecords[data-tilda-page-id="193254103"] .t-catalog__card-list>.t-catalog__card{flex:0 0 calc(50% - 5px)!important;max-width:calc(50% - 5px)!important}}
+html.mb-cards .t-catalog__grid-cont.js-catalog-cont-w-filter{padding-left:12px!important;padding-right:12px!important}
+html.mb-cards .t-catalog__card-list{row-gap:16px!important;column-gap:10px!important}
+html.mb-cards .t-catalog__card-list>.t-catalog__card{flex:0 0 calc((100% - 10px) / 2)!important;max-width:calc((100% - 10px) / 2)!important;width:auto!important}}
+@media (min-width:641px) and (max-width:959px){
+html.mb-cards .t-catalog__card-list{row-gap:18px!important;column-gap:12px!important}
+html.mb-cards .t-catalog__card-list>.t-catalog__card{flex:0 0 calc((100% - 24px) / 3)!important;max-width:calc((100% - 24px) / 3)!important;width:auto!important}}
+@media (min-width:960px) and (max-width:1199px){
+html.mb-cards .t-catalog__card-list{row-gap:20px!important;column-gap:14px!important}
+html.mb-cards .t-catalog__card-list>.t-catalog__card{flex:0 0 calc((100% - 28px) / 3)!important;max-width:calc((100% - 28px) / 3)!important;width:auto!important}}
+@media (min-width:1200px) and (max-width:1599px){
+html.mb-cards .t-catalog__card-list{row-gap:24px!important;column-gap:20px!important}
+html.mb-cards .t-catalog__card-list>.t-catalog__card{flex:0 0 calc((100% - 40px) / 3)!important;max-width:calc((100% - 40px) / 3)!important;width:auto!important}}
+@media (min-width:1600px){
+html.mb-cards .t-catalog__card-list{row-gap:24px!important;column-gap:20px!important}
+html.mb-cards .t-catalog__card-list>.t-catalog__card{flex:0 0 calc((100% - 60px) / 4)!important;max-width:calc((100% - 60px) / 4)!important;width:auto!important}}
