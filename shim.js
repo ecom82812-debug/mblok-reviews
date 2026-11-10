@@ -318,6 +318,19 @@
       nativeAppend.call(document.head, rvCss);
     }
   } catch (e) {}
+  /* Product page order: bundle above, then description and video side by side. Preview only: ?layout=new, ?layout=off ends it. */
+  try {
+    if (/[?&]layout=new/.test(location.search)) sessionStorage.setItem('mb-pp', '1');
+    if (/[?&]layout=off/.test(location.search)) sessionStorage.removeItem('mb-pp');
+    if (/\/tproduct\//.test(location.pathname) && sessionStorage.getItem('mb-pp')) {
+      document.documentElement.classList.add('mb-pp');
+      var ppJs = document.createElement('script');
+      ppJs.src = BASE + 'pp.js?v=1';
+      ppJs.async = true;
+      nativeAppend.call(document.head, ppJs);
+    }
+  } catch (e) {}
+
   /* Saves real prices of the open product for "Ви переглядали"; with mb-rv also adds stars there. */
   if (/\/tproduct\//.test(location.pathname)) {
     var rvJs = document.createElement('script');
