@@ -325,7 +325,7 @@
     if (/\/tproduct\//.test(location.pathname) && sessionStorage.getItem('mb-pp')) {
       document.documentElement.classList.add('mb-pp');
       var ppJs = document.createElement('script');
-      ppJs.src = BASE + 'pp.js?v=1';
+      ppJs.src = BASE + 'pp.js?v=2';
       ppJs.async = true;
       nativeAppend.call(document.head, ppJs);
     }

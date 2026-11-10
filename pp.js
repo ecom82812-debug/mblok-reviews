@@ -7,6 +7,7 @@
     '.mbp-more{max-width:1080px;margin:28px auto 8px;padding:0 20px;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr);gap:28px;font-family:Montserrat,Arial,sans-serif}' +
     '.mbp-more .js-catalog-prod-text{margin:0!important;padding:0!important;max-width:none!important;width:auto!important}' +
     '.mbp-more .mbVideo{margin:0!important}' +
+    '.mbp-more .js-catalog-prod-all-text>br:first-child{display:none}' +
     '.mbp-more__h{font-size:16px;font-weight:600;color:#000;margin:0 0 10px}' +
     '@media (min-width:961px){.mbp-more.has-video{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:48px;align-items:start}' +
     '.mbp-more.has-video .mbVideo{position:sticky;top:90px}}' +
