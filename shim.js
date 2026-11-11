@@ -340,6 +340,10 @@
       document.body.appendChild(a);
     };
     if (document.body) backBar(); else document.addEventListener('DOMContentLoaded', backBar);
+    /* With the header on a phone: the fixed header (64 px) covered the top of the breadcrumbs. */
+    var hdrCss = document.createElement('style');
+    hdrCss.textContent = '@media (max-width:960px){html.mb-hdr .t-catalog__prod-snippet__container{padding-top:72px!important}}';
+    nativeAppend.call(document.head, hdrCss);
   }
 
   /* Product page order: description stays, then bundle, then video. On for everyone (NEW_PP); set it to false to go back. */
