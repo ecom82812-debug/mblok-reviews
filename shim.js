@@ -318,9 +318,19 @@
       nativeAppend.call(document.head, rvCss);
     }
   } catch (e) {}
-  /* Product pages now get the site header from Tilda. While it is being tried (?hdr=new), everyone else
-     has it hidden (class mb-nohdr, set by the header itself) and gets the old back arrow here. */
+  /* Product pages get the site header from Tilda, plus the old back row under it on phones.
+     With the header hidden (?hdr=off) the back row stands alone, as before. */
   if (/\/tproduct\//.test(location.pathname)) {
+    /* The header is on for everyone (2026-11-11). Older cached copies of product pages still hide it
+       unless ?hdr=new was used: switch them over here. ?hdr=off hides it for the visit. */
+    try {
+      var hq = location.search, hc = document.documentElement.classList;
+      if (/[?&]hdr=off/.test(hq)) sessionStorage.setItem('mb-hdr-off', '1');
+      if (/[?&]hdr=new/.test(hq)) sessionStorage.removeItem('mb-hdr-off');
+      var hOff = !!sessionStorage.getItem('mb-hdr-off');
+      hc.toggle('mb-hdr', !hOff);
+      hc.toggle('mb-nohdr', hOff);
+    } catch (e) {}
     var backBar = function () {
       var cl = document.documentElement.classList;
       if (!(cl.contains('mb-nohdr') || cl.contains('mb-hdr')) || document.querySelector('.mb-back')) return;
