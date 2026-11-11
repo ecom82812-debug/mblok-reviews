@@ -318,6 +318,30 @@
       nativeAppend.call(document.head, rvCss);
     }
   } catch (e) {}
+  /* Product pages now get the site header from Tilda. While it is being tried (?hdr=new), everyone else
+     has it hidden (class mb-nohdr, set by the header itself) and gets the old back arrow here. */
+  if (/\/tproduct\//.test(location.pathname)) {
+    var backBar = function () {
+      if (!document.documentElement.classList.contains('mb-nohdr') || document.querySelector('.mb-back')) return;
+      var st = document.createElement('style');
+      st.textContent = '.mb-back{position:absolute;top:0;left:0;right:0;height:50px;display:flex;align-items:center;padding:0 20px;box-sizing:border-box;border-bottom:1px solid #eee;background:#fff;z-index:5;font-family:Montserrat,Arial,sans-serif;font-size:14px;color:#000!important;text-decoration:none!important}' +
+        '.mb-back svg{width:24px;height:24px;flex:none}.mb-back span{margin-left:8px}@media (max-width:960px){.mb-back span{display:none}}';
+      nativeAppend.call(document.head, st);
+      var a = document.createElement('a');
+      a.className = 'mb-back';
+      a.href = location.pathname.split('/tproduct/')[0] || '/';
+      a.setAttribute('aria-label', 'Повернутися назад');
+      a.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12H4M10 6l-6 6 6 6"/></svg><span>Повернутися назад</span>';
+      /* Back within the site; a visit that started on this product goes to its section instead of leaving */
+      a.addEventListener('click', function (e) {
+        var r = document.referrer;
+        if (r && r.indexOf(location.origin) === 0 && history.length > 1) { e.preventDefault(); history.back(); }
+      });
+      document.body.appendChild(a);
+    };
+    if (document.body) backBar(); else document.addEventListener('DOMContentLoaded', backBar);
+  }
+
   /* Product page order: description stays, then bundle, then video. On for everyone (NEW_PP); set it to false to go back. */
   var NEW_PP = true;
   try {
