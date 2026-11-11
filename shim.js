@@ -236,6 +236,36 @@
     'body .mb-rate .mb-rate-cnt,body .rw-inline-card .rw-cnt{font-size:11px}}';
   nativeAppend.call(document.head, starCss);
 
+  /* Menu: highlight the page you are on (on a product page, its section), on phones too.
+     Tilda marks only the categories and only on desktop; the phone menu styles painted it white. */
+  var curCss = document.createElement('style');
+  curCss.textContent =
+    '#t-header a.t-menu__link-item.mb-cur{color:#469bde!important}' +
+    '#t-header .t794__link.mb-cur{color:#469bde!important}' +
+    '#t-header .t794__link.mb-cur:before{color:#469bde!important}' +
+    '#t-header .t794__link.mb-cur:after{background:#469bde!important;opacity:1!important}' +
+    '@media (max-width:960px){#t-header .t794__link.mb-cur{background:rgba(70,155,222,.14);border-radius:10px;margin:0 -10px!important;padding:0 10px!important}' +
+    '#t-header a.t-menu__link-item.mb-cur{color:#469bde!important}}';
+  nativeAppend.call(document.head, curCss);
+  var markCurrent = function () {
+    var here = location.pathname.split('/tproduct/')[0].replace(/\/+$/, '') || '/';
+    var links = document.querySelectorAll('#t-header a[href]');
+    if (!links.length) return false;
+    var cat = false;
+    [].forEach.call(links, function (a) {
+      var h = (a.getAttribute('href') || '').split('#')[0].split('?')[0];
+      if (!h || h.charAt(0) !== '/' || h === '/') { a.classList.remove('mb-cur'); return; }
+      var on = h.replace(/\/+$/, '') === here;
+      a.classList.toggle('mb-cur', on);
+      if (on && a.classList.contains('t794__link')) cat = true;
+    });
+    /* A category page also lights up "Категорії" itself */
+    [].forEach.call(document.querySelectorAll('#t-header a[href^="#submenu"]'), function (a) { a.classList.toggle('mb-cur', cat); });
+    return true;
+  };
+  (function tryMark(n) { if (!markCurrent() && n < 40) setTimeout(function () { tryMark(n + 1); }, 250); })(0);
+  window.addEventListener('load', markCurrent);
+
   /* Header menu from the home page (there it sits in the page head) on all other pages. */
   if (location.pathname !== '/') {
     var menuCss = document.createElement('link');
