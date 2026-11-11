@@ -249,6 +249,8 @@
   nativeAppend.call(document.head, curCss);
   var markCurrent = function () {
     var here = location.pathname.split('/tproduct/')[0].replace(/\/+$/, '') || '/';
+    /* Car subsections have no menu item of their own: they sit under "Конструктор авто" */
+    if (/^\/(supercars|klasichn-auto|jeep|trucks)$/.test(here)) here = '/konstryktot-auto';
     var links = document.querySelectorAll('#t-header a[href]');
     if (!links.length) return false;
     var cat = false;
