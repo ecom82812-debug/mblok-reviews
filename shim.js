@@ -333,13 +333,15 @@
     } catch (e) {}
     var backBar = function () {
       var cl = document.documentElement.classList;
-      if (!(cl.contains('mb-nohdr') || cl.contains('mb-hdr')) || document.querySelector('.mb-back')) return;
+      if (!(cl.contains('mb-nohdr') || cl.contains('mb-hdr'))) return;
       var st = document.createElement('style');
       st.textContent = '.mb-back{position:absolute;top:0;left:0;right:0;height:50px;display:flex;align-items:center;padding:0 20px;box-sizing:border-box;border-bottom:1px solid #eee;background:#fff;z-index:5;font-family:Montserrat,Arial,sans-serif;font-size:14px;color:#000!important;text-decoration:none!important}' +
         '.mb-back svg{width:24px;height:24px;flex:none}.mb-back span{margin-left:8px}@media (max-width:960px){.mb-back span{display:none}}' +
         /* With the header: only on phones, as its own row right under the fixed header */
         'html.mb-hdr .mb-back{display:none}@media (max-width:960px){html.mb-hdr .mb-back{display:flex;top:64px}}';
       nativeAppend.call(document.head, st);
+      /* Older cached product pages already draw the row themselves: keep it, the styles above still apply */
+      if (document.querySelector('.mb-back')) return;
       var a = document.createElement('a');
       a.className = 'mb-back';
       a.href = location.pathname.split('/tproduct/')[0] || '/';
