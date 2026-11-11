@@ -322,10 +322,13 @@
      has it hidden (class mb-nohdr, set by the header itself) and gets the old back arrow here. */
   if (/\/tproduct\//.test(location.pathname)) {
     var backBar = function () {
-      if (!document.documentElement.classList.contains('mb-nohdr') || document.querySelector('.mb-back')) return;
+      var cl = document.documentElement.classList;
+      if (!(cl.contains('mb-nohdr') || cl.contains('mb-hdr')) || document.querySelector('.mb-back')) return;
       var st = document.createElement('style');
       st.textContent = '.mb-back{position:absolute;top:0;left:0;right:0;height:50px;display:flex;align-items:center;padding:0 20px;box-sizing:border-box;border-bottom:1px solid #eee;background:#fff;z-index:5;font-family:Montserrat,Arial,sans-serif;font-size:14px;color:#000!important;text-decoration:none!important}' +
-        '.mb-back svg{width:24px;height:24px;flex:none}.mb-back span{margin-left:8px}@media (max-width:960px){.mb-back span{display:none}}';
+        '.mb-back svg{width:24px;height:24px;flex:none}.mb-back span{margin-left:8px}@media (max-width:960px){.mb-back span{display:none}}' +
+        /* With the header: only on phones, as its own row right under the fixed header */
+        'html.mb-hdr .mb-back{display:none}@media (max-width:960px){html.mb-hdr .mb-back{display:flex;top:64px}}';
       nativeAppend.call(document.head, st);
       var a = document.createElement('a');
       a.className = 'mb-back';
@@ -340,33 +343,10 @@
       document.body.appendChild(a);
     };
     if (document.body) backBar(); else document.addEventListener('DOMContentLoaded', backBar);
-    /* With the header on a phone: the fixed header (64 px) covered the top of the breadcrumbs. */
+    /* With the header on a phone: room for the fixed header (64 px) and the back row (50 px) above the breadcrumbs. */
     var hdrCss = document.createElement('style');
-    hdrCss.textContent = '@media (max-width:960px){html.mb-hdr .t-catalog__prod-snippet__container{padding-top:72px!important}}';
+    hdrCss.textContent = '@media (max-width:960px){html.mb-hdr .t-catalog__prod-snippet__container{padding-top:114px!important}}';
     nativeAppend.call(document.head, hdrCss);
-    /* With the header on a phone: a small back arrow in front of the breadcrumbs (not on desktop). */
-    var goBack = function (e) {
-      var r = document.referrer;
-      if (r && r.indexOf(location.origin) === 0 && history.length > 1) { e.preventDefault(); history.back(); }
-    };
-    hdrCss.textContent += '.mb-bc-back{display:none}@media (max-width:960px){html.mb-hdr .mb-bc-back{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;margin:-6px 6px -6px -6px;border-radius:50%;vertical-align:middle;-webkit-tap-highlight-color:transparent}' +
-      'html.mb-hdr .mb-bc-back:active{background:#f1f1f1}html.mb-hdr .mb-bc-back svg{width:20px;height:20px}}';
-    var bcBack = function () {
-      if (!document.documentElement.classList.contains('mb-hdr')) return true;
-      var bc = document.querySelector('.t-catalog__prod-popup__breadcrumbs');
-      if (!bc) return false;
-      if (bc.querySelector('.mb-bc-back')) return true;
-      var a = document.createElement('a');
-      a.className = 'mb-bc-back';
-      a.href = location.pathname.split('/tproduct/')[0] || '/';
-      a.setAttribute('aria-label', 'Повернутися назад');
-      a.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12H4M10 6l-6 6 6 6"/></svg>';
-      a.addEventListener('click', goBack);
-      var first = bc.firstElementChild && bc.firstElementChild.children.length ? bc.firstElementChild : bc;
-      first.insertBefore(a, first.firstChild);
-      return true;
-    };
-    (function tryBc(n) { if (!bcBack() && n < 40) setTimeout(function () { tryBc(n + 1); }, 250); })(0);
   }
 
   /* Product page order: description stays, then bundle, then video. On for everyone (NEW_PP); set it to false to go back. */
