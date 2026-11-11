@@ -344,6 +344,29 @@
     var hdrCss = document.createElement('style');
     hdrCss.textContent = '@media (max-width:960px){html.mb-hdr .t-catalog__prod-snippet__container{padding-top:72px!important}}';
     nativeAppend.call(document.head, hdrCss);
+    /* With the header on a phone: a small back arrow in front of the breadcrumbs (not on desktop). */
+    var goBack = function (e) {
+      var r = document.referrer;
+      if (r && r.indexOf(location.origin) === 0 && history.length > 1) { e.preventDefault(); history.back(); }
+    };
+    hdrCss.textContent += '.mb-bc-back{display:none}@media (max-width:960px){html.mb-hdr .mb-bc-back{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;margin:-6px 6px -6px -6px;border-radius:50%;vertical-align:middle;-webkit-tap-highlight-color:transparent}' +
+      'html.mb-hdr .mb-bc-back:active{background:#f1f1f1}html.mb-hdr .mb-bc-back svg{width:20px;height:20px}}';
+    var bcBack = function () {
+      if (!document.documentElement.classList.contains('mb-hdr')) return true;
+      var bc = document.querySelector('.t-catalog__prod-popup__breadcrumbs');
+      if (!bc) return false;
+      if (bc.querySelector('.mb-bc-back')) return true;
+      var a = document.createElement('a');
+      a.className = 'mb-bc-back';
+      a.href = location.pathname.split('/tproduct/')[0] || '/';
+      a.setAttribute('aria-label', 'Повернутися назад');
+      a.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12H4M10 6l-6 6 6 6"/></svg>';
+      a.addEventListener('click', goBack);
+      var first = bc.firstElementChild && bc.firstElementChild.children.length ? bc.firstElementChild : bc;
+      first.insertBefore(a, first.firstChild);
+      return true;
+    };
+    (function tryBc(n) { if (!bcBack() && n < 40) setTimeout(function () { tryBc(n + 1); }, 250); })(0);
   }
 
   /* Product page order: description stays, then bundle, then video. On for everyone (NEW_PP); set it to false to go back. */
