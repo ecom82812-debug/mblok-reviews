@@ -114,3 +114,4 @@ html .mblok-badge.mblok-badge--dark{background:#f59e0b!important;color:#111!impo
 html .mblok-badge.mblok-badge--dark:before{content:'';flex:none;width:6px;height:6px;border-radius:50%;background:currentColor;animation:mbBadgePulse 1.4s ease-in-out infinite}
 @keyframes mbBadgePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
 @media (prefers-reduced-motion:reduce){html .mblok-badge.mblok-badge--dark:before{animation:none}}
+@media (max-width:640px){html .mblok-badge.mblok-badge--dark{gap:4px;padding-left:6px!important;letter-spacing:0!important}html .mblok-badge.mblok-badge--dark:before{width:5px;height:5px}}
