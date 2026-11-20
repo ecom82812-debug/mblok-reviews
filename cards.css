@@ -115,5 +115,7 @@ html .mblok-badge.mblok-badge--dark:before{content:'';flex:none;width:6px;height
 @keyframes mbBadgePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
 @media (prefers-reduced-motion:reduce){html .mblok-badge.mblok-badge--dark:before{animation:none}}
 @media (max-width:640px){html .mblok-badge.mblok-badge--dark{gap:4px;padding-left:6px!important;letter-spacing:0!important}html .mblok-badge.mblok-badge--dark:before{width:5px;height:5px}}
-/* Phones: shorter text "ОСТАННІ ШТ." (the full one is drawn by the badge script; here it is swapped visually only) */
-@media (max-width:640px){html .mblok-badge.mblok-badge--dark{font-size:0!important;gap:0!important}html .mblok-badge.mblok-badge--dark:after{content:'ОСТАННІ ШТ.';margin-left:4px;font-size:10px;letter-spacing:.2px;line-height:1.5}}
+/* Text "ОСТАННІ ШТ." on every screen (the badge script writes "КІЛЬКІСТЬ ОБМЕЖЕНА"; swapped visually only) */
+html .mblok-badge.mblok-badge--dark{font-size:0!important;gap:0!important}
+html .mblok-badge.mblok-badge--dark:after{content:'ОСТАННІ ШТ.';margin-left:5px;font-size:12px;letter-spacing:.2px;line-height:1.5}
+@media (max-width:640px){html .mblok-badge.mblok-badge--dark:after{margin-left:4px;font-size:10px}}
