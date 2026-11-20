@@ -108,3 +108,9 @@ html.mb-cards .t-catalog__card-list>.t-catalog__card{flex:0 0 calc((100% - 40px)
 @media (min-width:1600px){
 html.mb-cards .t-catalog__card-list{row-gap:24px!important;column-gap:20px!important}
 html.mb-cards .t-catalog__card-list>.t-catalog__card{flex:0 0 calc((100% - 60px) / 4)!important;max-width:calc((100% - 60px) / 4)!important;width:auto!important}}
+/* Badges (2026-11-20): "Ексклюзив" violet, "Кількість обмежена" amber with a pulsing dot. Other badges unchanged. */
+html .mblok-badge.mblok-badge--vip{background:linear-gradient(135deg,#6d28d9,#a855f7)!important;color:#fff!important}
+html .mblok-badge.mblok-badge--dark{background:#f59e0b!important;color:#111!important;display:inline-flex!important;align-items:center;gap:5px;white-space:nowrap}
+html .mblok-badge.mblok-badge--dark:before{content:'';flex:none;width:6px;height:6px;border-radius:50%;background:currentColor;animation:mbBadgePulse 1.4s ease-in-out infinite}
+@keyframes mbBadgePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
+@media (prefers-reduced-motion:reduce){html .mblok-badge.mblok-badge--dark:before{animation:none}}
